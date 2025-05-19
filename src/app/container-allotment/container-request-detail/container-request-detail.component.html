@@ -1,0 +1,81 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="donationModalLabel">Detail</h5>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="modal"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+<!-- Modal Body -->
+<div class="modal-body">
+  <div class="row mb-3">
+    <!-- Container Type -->
+    <div class="col-md-4">
+      <label for="container-type" class="form-label">Container Type</label>
+      <input
+        class="form-control"
+        [value]="donationContainer?.containerType?.name"
+        disabled
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="container-type" class="form-label">Date</label>
+      <input
+        class="form-control"
+        id="date"
+        name="date"
+        [value]="donationContainer?.createdDate | date : 'mediumDate'"
+        disabled
+      />
+    </div>
+
+    <div class="col-md-4">
+      <label for="donor" class="form-label"> Donor </label>
+      <input
+        class="form-control"
+        disabled
+        [value]="donationContainer?.donor?.name"
+      />
+    </div>
+  </div>
+
+  <!-- Container Code -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="container" class="form-label"> Container </label>
+      <input
+        class="form-control"
+        disabled
+        [value]="donationContainer?.container?.containerCode"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="status" class="form-label"> Status </label>
+      <input
+        class="form-control"
+        disabled
+        [value]="
+          donationContainer?.status | enumToString : 'DonationContainerStatus'
+        "
+      />
+    </div>
+
+    <div class="col-md-4">
+      <label for="trackingNumber" class="form-label"> Tracking Number </label>
+      <input
+        class="form-control"
+        disabled
+        [value]="donationContainer?.trackingNumber"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Modal Footer -->
+<div class="modal-footer">
+  <button type="button" class="vein-btn-light" (click)="closeModal()">
+    Close
+  </button>
+</div>

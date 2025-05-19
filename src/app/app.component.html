@@ -1,0 +1,109 @@
+@if(userIsLoggedIn){
+<header>
+  <div class="container">
+    <div
+      class="d-flex flex-wrap justify-content-center py-3 mb-2 border-bottom"
+    >
+      <a
+        href="/"
+        class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+      >
+        <img src="/images/logo.jpg" alt="Logo" height="50" class="me-2" />
+      </a>
+
+      <div class="dropdown pt-2 text-end">
+        <a
+          href="#"
+          class="d-block link-dark text-decoration-none dropdown-toggle"
+          id="dropdownUser2"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+            src="/images/user.jpg"
+            alt="user"
+            width="22"
+            height="22"
+            class="rounded-circle"
+          />
+        </a>
+        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser2">
+          <!-- <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+            <li><a class="dropdown-item" routerLink="/settings">Settings</a></li> -->
+          <!-- <li>
+              <hr class="dropdown-divider" />
+            </li> -->
+          <li>
+            <button type="button" class="dropdown-item" (click)="logout()">
+              Sign out
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="container user-area bg">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="sidebar">
+        <ul class="sidebar-list">
+          <!-- <li>
+            <a
+              [routerLink]="['/']"
+              [routerLinkActive]="['active']"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Dashboard</a
+            >
+          </li> -->
+          <li>
+            <a
+              [routerLink]="['/']"
+              [routerLinkActive]="['active']"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Donations</a
+            >
+          </li>
+          <li>
+            <a [routerLink]="['/container']" [routerLinkActive]="['active']"
+              >Containers</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/container-allotment']"
+              [routerLinkActive]="['active']"
+              >Containers Allotment</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-9">
+      <div class="user-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+
+  <!-- <router-outlet /> -->
+</div>
+
+} @else {
+<div class="container user-area">
+  <div class="row">
+    <div class="col-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- <router-outlet /> -->
+</div>
+
+}
+<app-loader></app-loader>

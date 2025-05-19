@@ -1,0 +1,88 @@
+<form [formGroup]="containerForm" (ngSubmit)="submitForm()" #form="ngForm">
+  <div class="modal-header">
+    <h5 class="modal-title" id="donationModalLabel">Container Request</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+  <!-- Modal Body -->
+  <div class="modal-body">
+    <div class="row mb-3">
+      <!-- Container Type -->
+      <div class="col-md-4">
+        <label for="container-type" class="form-label">Container Type</label>
+        <select
+          class="form-select"
+          id="containerTypeId"
+          name="containerTypeId"
+          [value]="donationContainer?.containerType?.id"
+          disabled
+        >
+          @for(containerType of containerTypes; track containerType.id){
+
+          <option [value]="containerType.id">
+            {{ containerType.name }}
+          </option>
+          }
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="container-type" class="form-label">Date</label>
+        <input
+          class="form-select"
+          id="date"
+          name="date"
+          [value]="donationContainer?.createdDate | date : 'mediumDate'"
+          disabled
+        />
+      </div>
+
+      <div class="col-md-4">
+        <label for="donor" class="form-label"> Donor </label>
+        <input
+          class="form-control"
+          disabled
+          [value]="donationContainer?.donor?.name"
+        />
+      </div>
+    </div>
+
+    <!-- Container Code -->
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label for="container" class="form-label"> Container </label>
+        <select
+          class="form-select"
+          id="containerId"
+          name="containerId"
+          formControlName="containerId"
+        >
+          <option value="" disabled selected>Select Container</option>
+          @for(container of containers; track container.id){
+
+          <option [value]="container.id">
+            {{ container.containerCode }}
+          </option>
+          }
+        </select>
+        <app-validation-message
+          fieldName="containerId"
+          [formGroup]="containerForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Footer -->
+  <div class="modal-footer">
+    <button class="vein-btn-success">Approve</button>
+    <button type="button" class="vein-btn-light" (click)="closeModal()">
+      Close
+    </button>
+  </div>
+</form>

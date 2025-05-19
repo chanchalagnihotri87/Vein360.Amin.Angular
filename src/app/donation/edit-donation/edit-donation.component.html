@@ -1,0 +1,261 @@
+<form [formGroup]="donationForm" (ngSubmit)="submitForm()" #form="ngForm">
+  <div class="modal-header">
+    <h5 class="modal-title" id="donationModalLabel">Edit Donation</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+  <!-- Modal Body -->
+  <div class="modal-body">
+    <div class="row mb-3">
+      <!-- Container Type -->
+      <div class="col-md-4">
+        <label for="container-type" class="form-label">Container Type</label>
+        <select
+          class="form-select"
+          id="containerType"
+          name="containerType"
+          formControlName="containerType"
+          [(ngModel)]="selectedContainerType"
+          (change)="containerTypeChanged()"
+        >
+          <!-- <option value="">Select Container Type</option> -->
+          <option [value]="ContainerType.Vein360Container">
+            Vein360 Container
+          </option>
+          <option [value]="ContainerType.FedexContainer">
+            Fedex Container
+          </option>
+          <option [value]="ContainerType.OwnCustomPacking">
+            Own Custom Packing
+          </option>
+        </select>
+
+        <app-validation-message
+          fieldName="containerType"
+          [formGroup]="donationForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+
+      <!-- Container/Packing Type -->
+      @if(selectedContainerType!=ContainerType.OwnCustomPacking.toString()){
+      <div class="col-md-4">
+        <label for="container" class="form-label">
+          {{
+            selectedContainerType == ContainerType.Vein360Container.toString()
+              ? "Container"
+              : "Packing Type"
+          }}</label
+        >
+        <select class="form-select" id="container" formControlName="container">
+          <option value="">
+            Select
+            {{
+              selectedContainerType == ContainerType.Vein360Container.toString()
+                ? "Container"
+                : "Packing Type"
+            }}
+          </option>
+          @for(container of associatedContainers; track container.id){
+          <option [value]="container.id">
+            {{ container.name }}
+          </option>
+          }
+        </select>
+        <app-validation-message
+          fieldName="container"
+          [formGroup]="donationForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      }
+
+      <!-- Dmimentions Length, Width, Height -->
+      @if(selectedContainerType == ContainerType.OwnCustomPacking.toString()){
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="length" class="form-label">Length "</label>
+            <input
+              type="number"
+              class="form-control length-control"
+              id="length"
+              placeholder=""
+              formControlName="length"
+            />
+            <app-validation-message
+              fieldName="length"
+              [formGroup]="donationForm"
+              [ngFormTemplate]="form"
+            ></app-validation-message>
+          </div>
+
+          <div class="col-md-4">
+            <label for="width" class="form-label">Width "</label>
+            <input
+              type="number"
+              class="form-control length-control"
+              id="Width"
+              placeholder=""
+              formControlName="width"
+            />
+            <app-validation-message
+              fieldName="width"
+              [formGroup]="donationForm"
+              [ngFormTemplate]="form"
+            ></app-validation-message>
+          </div>
+
+          <div class="col-md-4">
+            <label for="height" class="form-label">Height "</label>
+            <input
+              type="number"
+              class="form-control length-control"
+              id="height"
+              placeholder=""
+              formControlName="height"
+            />
+            <app-validation-message
+              fieldName="height"
+              [formGroup]="donationForm"
+              [ngFormTemplate]="form"
+            ></app-validation-message>
+          </div>
+        </div>
+      </div>
+      }
+
+      <!-- Tracking Number -->
+      <div class="col-md-2">
+        <label for="trackingNumber" class="form-label">Tracking Number</label>
+        <input
+          type="text"
+          class="form-control"
+          id="trackingNumber"
+          [value]="donation?.trackingNumber"
+          [disabled]="true"
+        />
+      </div>
+    </div>
+
+    <!-- Products -->
+    <div class="row pb-2 mt-5 mb-3 border-bottom">
+      <div class="col-md-12">
+        <span class="fw-bold">Products</span>
+      </div>
+    </div>
+
+    <!-- Header Row -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>Product</label>
+      </div>
+      <div class="col-md-2">
+        <label>Units</label>
+      </div>
+      <div class="col-md-1">
+        <label>Accepted</label>
+      </div>
+      <div class="col-md-1">
+        <label>Rejected</label>
+      </div>
+    </div>
+
+    <!-- Product Controls -->
+    <ng-container formArrayName="products">
+      @for(productControl of productFormControls.controls; track $index; let
+      index=$index){
+      <div class="row mb-3" [formGroupName]="index">
+        <div class="col-md-6">
+          <select class="form-select" formControlName="product">
+            <option value="">Select Product</option>
+            @for(product of products; track product.id.toString()){
+            <option [value]="product.id">
+              {{ product.name }}
+            </option>
+            }
+          </select>
+
+          <app-validation-message
+            fieldName="product"
+            [formGroup]="donationForm"
+            [ngFormTemplate]="form"
+            [arrayIndex]="index"
+            arrayFieldName="products"
+          ></app-validation-message>
+        </div>
+        <div class="col-md-2">
+          <input
+            type="number"
+            placeholder="Enter units"
+            class="form-control"
+            formControlName="units"
+          />
+          <app-validation-message
+            fieldName="units"
+            [formGroup]="donationForm"
+            [ngFormTemplate]="form"
+            [arrayIndex]="index"
+            arrayFieldName="products"
+          ></app-validation-message>
+        </div>
+        <div class="col-md-1">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="accepted"
+          />
+          <app-validation-message
+            fieldName="accepted"
+            [formGroup]="donationForm"
+            [ngFormTemplate]="form"
+            [arrayIndex]="index"
+            arrayFieldName="products"
+          ></app-validation-message>
+        </div>
+        <div class="col-md-1">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="rejected"
+          />
+          <app-validation-message
+            fieldName="rejected"
+            [formGroup]="donationForm"
+            [ngFormTemplate]="form"
+            [arrayIndex]="index"
+            arrayFieldName="products"
+          ></app-validation-message>
+        </div>
+      </div>
+      }
+    </ng-container>
+
+    <!-- Add Product Button -->
+    <div class="row">
+      <div class="col-12 mt-2">
+        <button
+          class="vein-btn-success btn-sm"
+          type="button"
+          (click)="addProduct()"
+        >
+          <i class="fa fa-plus"></i>
+          Add Product
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Footer -->
+  <div class="modal-footer">
+    <button type="submit" class="vein-btn-success">Update</button>
+    <button type="button" class="vein-btn-light" (click)="closeModal()">
+      Cancel
+    </button>
+  </div>
+</form>

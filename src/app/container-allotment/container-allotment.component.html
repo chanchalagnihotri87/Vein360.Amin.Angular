@@ -1,0 +1,123 @@
+<div class="user-card">
+  <div class="user-card-header">
+    <h4 class="user-card-title">Containers Allotment</h4>
+    <!-- Request for a container button -->
+  </div>
+  <div class="user-card-body">
+    <!-- Containers List -->
+
+    <table class="table table-borderless" id="container-allotment-table">
+      <thead>
+        <tr class="text-nowrap">
+          <th>#Id</th>
+          <th>Container Type</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Container Code</th>
+          <th>Tracking Number</th>
+          <th>Label</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(donationContainer of donationContainers; track
+        donationContainer.id){
+        <tr>
+          <td>
+            <span class="table-list-code"> {{ donationContainer.id }} </span>
+          </td>
+          <td class="text-nowrap">
+            {{ donationContainer.containerType!.name }}
+          </td>
+
+          <td>
+            @switch (donationContainer.status) { @case
+            (ContainerStatus.Requested) {
+            <span class="badge badge-primary">Requested</span>
+            } @case (ContainerStatus.Approved) {
+            <span class="badge badge-success">Approved</span>
+            } @case (ContainerStatus.Filled) {
+            <span class="badge badge-info">Filled</span>
+            } @case (ContainerStatus.Processed) {
+            <span class="badge badge-info">Processed</span>
+            } @case (ContainerStatus.Rejected) {
+            <span class="badge badge-danger">Rejected</span>
+            } }
+          </td>
+          <td class="text-nowrap">
+            {{ donationContainer.createdDate | date : "mediumDate" }}
+          </td>
+          <td>{{ donationContainer.container?.containerCode }}</td>
+          <td>{{ donationContainer.trackingNumber }}</td>
+          <td>
+            @if(donationContainer.status==ContainerStatus.Approved){
+            <button
+              type="button"
+              class="btn-link-download btn-link"
+              target="_blank"
+              (click)="downloadLabel(donationContainer.labelFileName)"
+            >
+              <i class="fa fa-download"></i>
+            </button>
+            }
+          </td>
+          <td>
+            <div class="dropdown">
+              <button
+                class="btn btn-default"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fa fa-ellipsis-v"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="showContainerRequestDetail(donationContainer.id)"
+                  >
+                    Detail
+                  </button>
+                </li>
+                @if(donationContainer.status==ContainerStatus.Requested){
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="approveContainerRequest(donationContainer.id)"
+                  >
+                    Approve
+                  </button>
+                </li>
+
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="rejectContainerRequest(donationContainer.id)"
+                  >
+                    Reject
+                  </button>
+                </li>
+                }
+
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    (click)="deleteContainerRequest(donationContainer.id)"
+                  >
+                    Delete
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
