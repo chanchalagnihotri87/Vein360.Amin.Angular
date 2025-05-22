@@ -10,12 +10,12 @@ import {
 
 import ContainerListItem from '../../container/shared/container-list-item-model';
 import DonationContainer from '../../container/shared/donation-container.model';
+import Product from '../../product/shared/product.model';
 import { ContainerType } from '../../shared/enums/container-type.enum';
 import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import DonationProduct from '../shared/donation-product.model';
 import Donation from '../shared/donation.model';
 import FedexService from '../shared/fedex.service';
-import Product from '../shared/product.model';
 
 @Component({
   selector: 'app-add',

@@ -9,6 +9,8 @@ import { DonationStatus } from '../shared/enums/dontainer-status.enum';
 import { ProcessDonationComponent } from './process-donation/process-donation.component';
 
 import DonationContainer from '../container/shared/donation-container.model';
+import Product from '../product/shared/product.model';
+import { ProductService } from '../product/shared/product.service';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
 import { ContainerType } from '../shared/enums/container-type.enum';
 import { DonationDetailComponent } from './donation-detail/donation-detail.component';
@@ -16,8 +18,6 @@ import { EditDonationComponent } from './edit-donation/edit-donation.component';
 import Donation from './shared/donation.model';
 import { DonationService } from './shared/donation.service';
 import ProcessedDonation from './shared/processed-donation-model';
-import Product from './shared/product.model';
-import { ProductService } from './shared/product.service';
 
 @Component({
   selector: 'app-donation',
@@ -71,7 +71,7 @@ export class DonationComponent {
   }
 
   private loadProducts() {
-    this.productService.getProducts().subscribe((products) => {
+    this.productService.getProductsAsListItems().subscribe((products) => {
       console.log(products);
       this.products = products;
     });

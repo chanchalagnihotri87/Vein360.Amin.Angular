@@ -5,6 +5,7 @@ import { ContainerComponent } from './container/container.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DonationComponent } from './donation/donation.component';
 import { LoginComponent } from './login/login.component';
+import { ProductComponent } from './product/product.component';
 
 export const routes: Routes = [
   { path: '', component: DonationComponent, canActivate: [authGuard] },
@@ -19,5 +20,9 @@ export const routes: Routes = [
     path: 'container-allotment',
     component: ContainerAllotmentComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'product',
+    component: ProductComponent,
   },
 ];

@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { BreadcrumbService } from '../breadcrumb/shared/breadcrumb.service';
 import ContainerType from '../container/shared/container-type.model';
 import { ContatinerTypeService } from '../container/shared/contatiner-type.service';
 import DonationContainer from '../container/shared/donation-container.model';
@@ -28,10 +29,12 @@ export class ContainerAllotmentComponent {
     private donationContainerService: DonationContainerService,
     private containerTypeService: ContatinerTypeService,
     private modalService: BsModalService,
-    private labelService: LabelService
+    private labelService: LabelService,
+    private breadcrumbService: BreadcrumbService
   ) {}
 
   ngOnInit(): void {
+    this.setBreadcrumb();
     this.loadDonationContainers();
     this.loadContainerTypes();
   }
@@ -206,6 +209,12 @@ export class ContainerAllotmentComponent {
 
   private hideConfirmationModal() {
     this.confirmationModalRef?.hide();
+  }
+
+  setBreadcrumb() {
+    this.breadcrumbService.breadcrumbs.set([
+      { label: 'Containers Allotment', path: '' },
+    ]);
   }
   //#endregion
 }

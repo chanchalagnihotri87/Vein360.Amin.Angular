@@ -1,0 +1,78 @@
+<div class="user-card">
+  <div class="user-card-header">
+    <h4 class="user-card-title">Products</h4>
+    <button
+      class="vein-btn-success btn-sm float-end"
+      type="button"
+      (click)="showAddProductModal()"
+    >
+      <i class="fa fa-plus"></i>
+      Add Product
+    </button>
+  </div>
+  <div class="user-card-body">
+    <table class="table table-borderless text-nowrap" id="donation-table">
+      <thead>
+        <tr>
+          <th>#Id</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of products; track product.id) {
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>
+            @switch (product.type) { @case (ProductType.ClosureFastCatheter){
+            <span>Closure Fast Catheter</span>
+            } @case (ProductType.IntroducerSheath){
+            <span>Introducer Sheath</span>
+            } @case (ProductType.IVUSCatheter){
+            <span>IVUS Catheter</span>
+            } @case (ProductType.ProcedurePack){
+            <span>Procedure Pack</span>
+            } }
+          </td>
+          <td>{{ product.price }}</td>
+          <td>
+            <div class="dropdown">
+              <button
+                class="btn btn-default"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fa fa-ellipsis-v"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <button
+                    type="button"
+                    class="dropdown-item"
+                    (click)="showEditProductModal(product)"
+                  >
+                    Edit
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="dropdown-item"
+                    (click)="handleDeleteProduct(product.id)"
+                  >
+                    Delete
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

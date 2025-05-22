@@ -1,0 +1,101 @@
+<form [formGroup]="productForm" (ngSubmit)="submitForm()" #form="ngForm">
+  <div class="modal-header">
+    <h5 class="modal-title" id="donationModalLabel">Add Product</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+  <!-- Modal Body -->
+  <div class="modal-body">
+    <div class="row mb-3">
+      <!-- Container Type -->
+      <div class="col-md-4">
+        <label for="name" class="form-label">Name</label>
+        <input
+          class="form-control"
+          id="name"
+          name="name"
+          formControlName="name"
+        />
+
+        <app-validation-message
+          fieldName="name"
+          [formGroup]="productForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-md-4">
+        <label for="type" class="form-label">Product Type </label>
+        <select class="form-select" id="type" formControlName="type">
+          <option value="">Select Product Type</option>
+          @for(productType of productTypes; track productType.id){
+          <option [value]="productType.id">
+            {{ productType.name }}
+          </option>
+          }
+        </select>
+        <app-validation-message
+          fieldName="type"
+          [formGroup]="productForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-md-4">
+        <label for="price" class="form-label">Price</label>
+        <input
+          type="number"
+          class="form-control"
+          id="price"
+          formControlName="price"
+          min="1"
+        />
+        <app-validation-message
+          fieldName="price"
+          [formGroup]="productForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+    </div>
+    <!-- Dmimentions Length, Width, Height -->
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          formControlName="description"
+          class="form-control"
+          rows="6"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label for="file" class="form-label">Image</label>
+      <input
+        type="file"
+        class="form-control"
+        id="imageFile"
+        placeholder=""
+        (change)="onFileSelected($event)"
+      />
+      <app-validation-message
+        fieldName="imageFile"
+        [formGroup]="productForm"
+        [ngFormTemplate]="form"
+      ></app-validation-message>
+    </div>
+  </div>
+
+  <!-- Modal Footer -->
+  <div class="modal-footer">
+    <button type="submit" class="vein-btn-success">Submit</button>
+    <button type="button" class="vein-btn-light" (click)="closeModal()">
+      Cancel
+    </button>
+  </div>
+</form>

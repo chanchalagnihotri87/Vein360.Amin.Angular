@@ -216,6 +216,15 @@ header,
   }
 }
 
+.vein-btn-link {
+  color: var(--theme-color);
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--color-red);
+    transition: var(--transition);
+  }
+}
 .vein-btn-light {
   position: relative;
   font-size: 16px;

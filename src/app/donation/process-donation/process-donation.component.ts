@@ -3,7 +3,7 @@ import ContainerListItem from '../../container/shared/container-list-item-model'
 import DonationContainer from '../../container/shared/donation-container.model';
 import Donation from '../shared/donation.model';
 
-import Product from '../shared/product.model';
+import Product from '../../product/shared/product.model';
 
 import {
   FormArray,
@@ -12,11 +12,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import ProcessedProduct from '../../product/shared/processed-product.model';
 import { ContainerType } from '../../shared/enums/container-type.enum';
 import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import FedexService from '../shared/fedex.service';
 import ProcessedDonation from '../shared/processed-donation-model';
-import ProcessedProduct from '../shared/processed-product.model';
 
 @Component({
   selector: 'process-donation',
