@@ -1,10 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, output } from '@angular/core';
-import ContainerType from '../../container/shared/container-type.model';
-import { ContainerService } from '../../container/shared/container.service';
-import DonationContainer from '../../container/shared/donation-container.model';
-import Vein360Container from '../../container/shared/vein-360-container.model';
 import { EnumToStringPipe } from '../../shared/pipes/enum-to-string.pipe';
+import ContainerType from '../shared/container-type.model';
+import DonationContainer from '../shared/donation-container.model';
 
 @Component({
   selector: 'app-container-request-detail',
@@ -18,25 +16,11 @@ export class ContainerRequestDetailComponent implements OnInit {
 
   onClose = output();
 
-  containers: Vein360Container[] = [];
+  constructor() {}
 
-  constructor(private containerService: ContainerService) {}
-
-  ngOnInit(): void {
-    this.loadContainers();
-  }
+  ngOnInit(): void {}
 
   closeModal() {
     this.onClose.emit();
   }
-
-  //#region Private Methods
-
-  loadContainers() {
-    this.containerService.getContainers().subscribe((containers) => {
-      this.containers = containers;
-    });
-  }
-
-  // #endregion
 }

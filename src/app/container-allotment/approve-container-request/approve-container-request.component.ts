@@ -7,13 +7,12 @@ import {
 } from '@angular/forms';
 
 import { DatePipe } from '@angular/common';
-import ContainerType from '../../container/shared/container-type.model';
-import { ContainerService } from '../../container/shared/container.service';
-import DonationContainer from '../../container/shared/donation-container.model';
-import Vein360Container from '../../container/shared/vein-360-container.model';
+
 import { Vein360ContainerStatus } from '../../shared/enums/vein360-container-status';
 import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import ApproveContainerRequest from '../shared/approve-container-request.model';
+import ContainerType from '../shared/container-type.model';
+import DonationContainer from '../shared/donation-container.model';
 
 @Component({
   selector: 'app-approve-container-request',
@@ -27,28 +26,24 @@ export class ApproveContainerRequestComponent implements OnInit {
   public onSubmit = output<ApproveContainerRequest>();
   public onClose = output();
 
-  public containers: Vein360Container[] = [];
   public containerForm: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private containerService: ContainerService
-  ) {
+  constructor(private formBuilder: FormBuilder) {
     this.containerForm = this.createContainerForm();
   }
 
-  ngOnInit(): void {
-    this.loadContainers(this.donationContainer!.containerType!.id);
-  }
+  ngOnInit(): void {}
 
   //#region  Public Methods
 
   public submitForm() {
     if (this.containerForm.valid) {
       const approveRequest = new ApproveContainerRequest(
-        this.containerForm.value.dontainerContainerId,
-        this.containerForm.value.containerId
+        this.donationContainer!.id,
+        this.containerForm.value.approvedUnits
       );
+
+      debugger;
 
       this.onSubmit.emit(approveRequest);
     }
@@ -73,18 +68,11 @@ export class ApproveContainerRequestComponent implements OnInit {
   //#endregion
 
   //#region Private Methods
-  loadContainers(containerTypeId: number) {
-    this.containerService
-      .getAvailableContainers(containerTypeId)
-      .subscribe((containers) => {
-        this.containers = containers;
-      });
-  }
 
   createContainerForm(): FormGroup {
     return this.formBuilder.group({
       dontainerContainerId: [this.donationContainer?.id],
-      containerId: ['', [Validators.required]],
+      approvedUnits: ['', [Validators.required]],
     });
   }
 

@@ -42,11 +42,11 @@
       </div>
 
       <div class="col-md-4">
-        <label for="donor" class="form-label"> Donor </label>
+        <label for="donor" class="form-label"> Clinic </label>
         <input
           class="form-control"
           disabled
-          [value]="donationContainer?.donor?.name"
+          [value]="donationContainer?.clinic?.clinicCode"
         />
       </div>
     </div>
@@ -54,23 +54,26 @@
     <!-- Container Code -->
     <div class="row mb-3">
       <div class="col-md-4">
-        <label for="container" class="form-label"> Container </label>
-        <select
-          class="form-select"
-          id="containerId"
-          name="containerId"
-          formControlName="containerId"
-        >
-          <option value="" disabled selected>Select Container</option>
-          @for(container of containers; track container.id){
+        <label for="requested-container" class="form-label">
+          Requested Units
+        </label>
+        <input
+          class="form-control"
+          [value]="donationContainer?.requestedUnits"
+          disabled
+        />
+      </div>
 
-          <option [value]="container.id">
-            {{ container.containerCode }}
-          </option>
-          }
-        </select>
+      <div class="col-md-4">
+        <label for="approved-units" class="form-label"> Approved Units </label>
+        <input
+          class="form-control"
+          formControlName="approvedUnits"
+          [value]="donationContainer?.approvedUnits"
+        />
+
         <app-validation-message
-          fieldName="containerId"
+          fieldName="approvedUnits"
           [formGroup]="containerForm"
           [ngFormTemplate]="form"
         ></app-validation-message>

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, output } from '@angular/core';
-import ContainerListItem from '../../container/shared/container-list-item-model';
-import DonationContainer from '../../container/shared/donation-container.model';
+import DonationContainer from '../../container-allotment/shared/donation-container.model';
 import Donation from '../shared/donation.model';
 
 import Product from '../../product/shared/product.model';
@@ -13,7 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import ProcessedProduct from '../../product/shared/processed-product.model';
-import { ContainerType } from '../../shared/enums/container-type.enum';
+import { PackageType } from '../../shared/enums/package-type.enum';
 import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import FedexService from '../shared/fedex.service';
 import ProcessedDonation from '../shared/processed-donation-model';
@@ -126,27 +125,17 @@ export class ProcessDonationComponent implements OnInit {
     return this.fedexPackService.FedexPacks;
   }
 
-  get associatedContainers(): ContainerListItem[] {
-    if (this.donation?.containerType === ContainerType.FedexContainer) {
-      return this.fedexPacks.map(
-        (pack) => new ContainerListItem(pack.id, pack.description)
-      );
-    }
+  // get associatedContainers(): ContainerListItem[] {
+  //   if (this.donation?.packageType === ContainerType.FedexContainer) {
+  //     return this.fedexPacks.map(
+  //       (pack) => new ContainerListItem(pack.id, pack.description)
+  //     );
+  //   }
 
-    return this.containers.map(
-      (item) =>
-        new ContainerListItem(
-          item.id,
-          `#${item.id} ${item.containerType?.name} ${
-            item.container?.containerCode
-              ? `[${item.container?.containerCode}]`
-              : ''
-          }`
-        )
-    );
-  }
+  //   return [];
+  // }
 
   get ContainerType() {
-    return ContainerType;
+    return PackageType;
   }
 }

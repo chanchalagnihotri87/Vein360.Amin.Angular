@@ -2,16 +2,16 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BreadcrumbService } from '../breadcrumb/shared/breadcrumb.service';
-import ContainerType from '../container/shared/container-type.model';
-import { ContatinerTypeService } from '../container/shared/contatiner-type.service';
-import DonationContainer from '../container/shared/donation-container.model';
-import { DonationContainerService } from '../container/shared/donation-container.service';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
 import { DonationContainerStatus } from '../shared/enums/donation-container.status';
 import { ApproveContainerRequestComponent } from './approve-container-request/approve-container-request.component';
 import { ContainerRequestDetailComponent } from './container-request-detail/container-request-detail.component';
 import ApproveContainerRequest from './shared/approve-container-request.model';
-import { LabelService } from './shared/label.service';
+import ContainerType from './shared/container-type.model';
+import { ContatinerTypeService } from './shared/contatiner-type.service';
+import { DocumentService } from './shared/document.service';
+import DonationContainer from './shared/donation-container.model';
+import { DonationContainerService } from './shared/donation-container.service';
 
 @Component({
   selector: 'app-container-allotment',
@@ -29,7 +29,7 @@ export class ContainerAllotmentComponent {
     private donationContainerService: DonationContainerService,
     private containerTypeService: ContatinerTypeService,
     private modalService: BsModalService,
-    private labelService: LabelService,
+    private documentService: DocumentService,
     private breadcrumbService: BreadcrumbService
   ) {}
 
@@ -44,6 +44,7 @@ export class ContainerAllotmentComponent {
     this.donationContainerService
       .getContainer(containerId)
       .subscribe((container) => {
+        console.log(container);
         this.showApproveContainerRequestModal(container);
       });
   }
@@ -111,9 +112,11 @@ export class ContainerAllotmentComponent {
   }
 
   public downloadLabel(labelFileName: string) {
-    this.labelService.getLabel(labelFileName).subscribe((labelData: Blob) => {
-      this.labelService.downloadLabel(labelData, labelFileName);
-    });
+    this.documentService
+      .getLabel(labelFileName)
+      .subscribe((labelData: Blob) => {
+        this.documentService.downloadLabel(labelData, labelFileName);
+      });
   }
 
   //#endregion
@@ -190,10 +193,7 @@ export class ContainerAllotmentComponent {
     this.containerModalRef.content.onSubmit.subscribe(
       (approveContainerRequest: ApproveContainerRequest) => {
         this.donationContainerService
-          .approveRequest(
-            donationContainer.id,
-            approveContainerRequest.containerId
-          )
+          .approveRequest(approveContainerRequest)
           .subscribe(() => {
             this.loadDonationContainers();
           });

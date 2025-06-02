@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { ContainerType } from '../../shared/enums/container-type.enum';
+import { PackageType } from '../../shared/enums/package-type.enum';
 import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import ProductTypeListItem from '../shared/product-type-list-item.model';
 import { ProductTypeService } from '../shared/product-type.service';
@@ -78,7 +78,7 @@ export class AddProductComponent implements OnInit {
   //#region Get Properties
 
   get ContainerType() {
-    return ContainerType;
+    return PackageType;
   }
 
   //#endregion

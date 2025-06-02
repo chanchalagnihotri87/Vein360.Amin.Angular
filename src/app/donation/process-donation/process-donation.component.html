@@ -11,7 +11,7 @@
   </div>
 
   <div class="modal-body">
-    <div class="row mb-3">
+    <!-- <div class="row mb-3">
       <div class="col-md-4">
         <label for="container-type" class="form-label">Container Type</label>
         <select
@@ -31,63 +31,25 @@
 
       <div class="col-md-4">
         <label for="container" class="form-label">{{
-          donation?.containerType == ContainerType.Vein360Container
+          donation?.pac == ContainerType.Vein360Container
             ? "Container"
             : "Packing Type"
         }}</label>
         <select
           class="form-select"
           id="container"
-          [value]="donation?.containerId"
+          [value]="donation?.containerTypeId"
           [disabled]="true"
         >
           @for(container of associatedContainers; track container.id){
           <option
             [value]="container.id"
-            [selected]="container.id == donation!.containerId"
+            [selected]="container.id == donation!.containerTypeId"
           >
             {{ container.name }}
           </option>
           }
         </select>
-      </div>
-      } @if(donation?.containerType==ContainerType.OwnCustomPacking) {
-
-      <div class="col-md-4">
-        <div class="row">
-          <div class="col-md-4">
-            <label for="length" class="form-label">Length "</label>
-            <input
-              type="number"
-              class="form-control length-control"
-              id="length"
-              disabled="true"
-              [value]="donation?.length"
-            />
-          </div>
-
-          <div class="col-md-4">
-            <label for="width" class="form-label">Width "</label>
-            <input
-              type="number"
-              class="form-control length-control"
-              id="Width"
-              disabled="true"
-              [value]="donation?.width"
-            />
-          </div>
-
-          <div class="col-md-4">
-            <label for="height" class="form-label">Height "</label>
-            <input
-              type="number"
-              class="form-control length-control"
-              id="height"
-              [disabled]="true"
-              [value]="donation?.height"
-            />
-          </div>
-        </div>
       </div>
       }
 
@@ -182,7 +144,7 @@
         </div>
       </div>
       }
-    </ng-container>
+    </ng-container> -->
   </div>
   <div class="modal-footer">
     <button type="submit" class="vein-btn-success">Submit</button>

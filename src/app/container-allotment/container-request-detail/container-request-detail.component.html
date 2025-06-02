@@ -32,25 +32,35 @@
     </div>
 
     <div class="col-md-4">
-      <label for="donor" class="form-label"> Donor </label>
+      <label for="donor" class="form-label"> Clinic </label>
       <input
         class="form-control"
         disabled
-        [value]="donationContainer?.donor?.name"
+        [value]="donationContainer?.clinic?.clinicCode"
       />
     </div>
   </div>
 
-  <!-- Container Code -->
+  <!-- Requested Units -->
   <div class="row mb-3">
     <div class="col-md-4">
-      <label for="container" class="form-label"> Container </label>
+      <label class="form-label"> Requested Units </label>
       <input
         class="form-control"
         disabled
-        [value]="donationContainer?.container?.containerCode"
+        [value]="donationContainer?.requestedUnits"
       />
     </div>
+
+    <div class="col-md-4">
+      <label class="form-label"> Approved Units </label>
+      <input
+        class="form-control"
+        disabled
+        [value]="donationContainer?.approvedUnits"
+      />
+    </div>
+
     <div class="col-md-4">
       <label for="status" class="form-label"> Status </label>
       <input
@@ -59,15 +69,6 @@
         [value]="
           donationContainer?.status | enumToString : 'DonationContainerStatus'
         "
-      />
-    </div>
-
-    <div class="col-md-4">
-      <label for="trackingNumber" class="form-label"> Tracking Number </label>
-      <input
-        class="form-control"
-        disabled
-        [value]="donationContainer?.trackingNumber"
       />
     </div>
   </div>

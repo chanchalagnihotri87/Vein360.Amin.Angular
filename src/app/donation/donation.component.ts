@@ -4,20 +4,21 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BreadcrumbItem } from '../breadcrumb/shared/breadcrumb-item.model';
 import { BreadcrumbService } from '../breadcrumb/shared/breadcrumb.service';
-import { DonationContainerService } from '../container/shared/donation-container.service';
+import { DonationContainerService } from '../container-allotment/shared/donation-container.service';
 import { DonationStatus } from '../shared/enums/dontainer-status.enum';
 import { ProcessDonationComponent } from './process-donation/process-donation.component';
 
-import DonationContainer from '../container/shared/donation-container.model';
+import DonationContainer from '../container-allotment/shared/donation-container.model';
 import Product from '../product/shared/product.model';
 import { ProductService } from '../product/shared/product.service';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
-import { ContainerType } from '../shared/enums/container-type.enum';
+import { PackageType } from '../shared/enums/package-type.enum';
 import { DonationDetailComponent } from './donation-detail/donation-detail.component';
 import { EditDonationComponent } from './edit-donation/edit-donation.component';
 import Donation from './shared/donation.model';
 import { DonationService } from './shared/donation.service';
 import ProcessedDonation from './shared/processed-donation-model';
+import UpdatedDonation from './shared/updated-donation.model';
 
 @Component({
   selector: 'app-donation',
@@ -30,6 +31,8 @@ export class DonationComponent {
 
   private processDonationModalRef?: BsModalRef;
   private confirmationModalRef?: BsModalRef;
+  private rejectionDetailModalRef?: BsModalRef;
+
   private products: Product[] = [];
   private donationContainers: DonationContainer[] = [];
 
@@ -50,8 +53,8 @@ export class DonationComponent {
     return DonationStatus;
   }
 
-  get ContainerType() {
-    return ContainerType;
+  get PackageType() {
+    return PackageType;
   }
 
   private loadDonations() {
@@ -159,9 +162,9 @@ export class DonationComponent {
     );
 
     this.processDonationModalRef.content.onSubmit.subscribe(
-      (donation: Donation) => {
+      (updatedDonation: UpdatedDonation) => {
         debugger;
-        this.handleEditDonation(donation);
+        this.handleEditDonation(updatedDonation);
         this.closeModal();
       }
     );
@@ -171,12 +174,13 @@ export class DonationComponent {
     });
   }
 
-  private handleEditDonation(donation: Donation) {
-    this.donationService.updateDonation(donation).subscribe((dnt: Donation) => {
-      debugger;
-      console.log(donation);
-      this.donations = this.donations.map((d) => (d.id === dnt.id ? dnt : d));
-    });
+  private handleEditDonation(updatedDonation: UpdatedDonation) {
+    this.donationService
+      .updateDonation(updatedDonation)
+      .subscribe((dnt: Donation) => {
+        debugger;
+        this.donations = this.donations.map((d) => (d.id === dnt.id ? dnt : d));
+      });
   }
 
   //#endregion

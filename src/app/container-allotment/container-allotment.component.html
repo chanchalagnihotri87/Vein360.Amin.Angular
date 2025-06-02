@@ -1,6 +1,6 @@
 <div class="user-card">
   <div class="user-card-header">
-    <h4 class="user-card-title">Containers Allotment</h4>
+    <h4 class="user-card-title">Containers</h4>
     <!-- Request for a container button -->
   </div>
   <div class="user-card-body">
@@ -13,9 +13,7 @@
           <th>Container Type</th>
           <th>Status</th>
           <th>Date</th>
-          <th>Container Code</th>
-          <th>Tracking Number</th>
-          <th>Label</th>
+          <td>Requested Units</td>
           <th>Action</th>
         </tr>
       </thead>
@@ -36,31 +34,19 @@
             <span class="badge badge-primary">Requested</span>
             } @case (ContainerStatus.Approved) {
             <span class="badge badge-success">Approved</span>
-            } @case (ContainerStatus.Filled) {
-            <span class="badge badge-info">Filled</span>
-            } @case (ContainerStatus.Processed) {
-            <span class="badge badge-info">Processed</span>
+            } @case (ContainerStatus.Shipped) {
+            <span class="badge badge-info">Shipped</span>
             } @case (ContainerStatus.Rejected) {
             <span class="badge badge-danger">Rejected</span>
             } }
           </td>
+
           <td class="text-nowrap">
             {{ donationContainer.createdDate | date : "mediumDate" }}
           </td>
-          <td>{{ donationContainer.container?.containerCode }}</td>
-          <td>{{ donationContainer.trackingNumber }}</td>
-          <td>
-            @if(donationContainer.status==ContainerStatus.Approved){
-            <button
-              type="button"
-              class="btn-link-download btn-link"
-              target="_blank"
-              (click)="downloadLabel(donationContainer.labelFileName)"
-            >
-              <i class="fa fa-download"></i>
-            </button>
-            }
-          </td>
+
+          <td>{{ donationContainer.requestedUnits }}</td>
+
           <td>
             <div class="dropdown">
               <button

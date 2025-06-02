@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import Donation from './donation.model';
 import ProcessedDonation from './processed-donation-model';
+import UpdatedDonation from './updated-donation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +21,7 @@ export class DonationService {
     return this.httpClient.get<Donation>(`${this.baseUrl}/${donationId}`);
   }
 
-  updateDonation(donation: Donation) {
-    debugger;
+  updateDonation(donation: UpdatedDonation) {
     return this.httpClient.put<Donation>(`${this.baseUrl}`, donation);
   }
 

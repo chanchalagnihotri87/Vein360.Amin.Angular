@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
+import ApproveContainerRequest from './approve-container-request.model';
 import DonationContainer from './donation-container.model';
 
 @Injectable({
@@ -41,10 +42,10 @@ export class DonationContainerService {
     );
   }
 
-  approveRequest(donationContainerId: number, containerId: number) {
+  approveRequest(approveContainerRequest: ApproveContainerRequest) {
     return this.httpClient.patch<DonationContainer>(
-      `${this.baseUrl}/approve/${donationContainerId}/${containerId}`,
-      {}
+      `${this.baseUrl}/approve`,
+      approveContainerRequest
     );
   }
 

@@ -1,6 +1,6 @@
 export default class ApproveContainerRequest {
   constructor(
-    public dontainerContainerId: number,
-    public containerId: number
+    public donationContainerId: number,
+    public approvedUnits: number
   ) {}
 }

@@ -1,37 +1,41 @@
+import Clinic from '../../container-allotment/shared/clinic.model';
 import { DonationStatus } from '../../shared/enums/dontainer-status.enum';
+import ContainerType from './container-type.model';
 import DonationProduct from './donation-product.model';
 
 export default class Donation {
   id: number = 0;
-  containerType: number;
-  containerId: number;
-  length?: number;
-  width?: number;
-  height?: number;
+  clinicId: number;
+  packageType: number;
+  containerTypeId?: number;
+  fedexPackagingTypeId?: number;
   productTypes: string[] = [];
-  trackingNumber: string = '';
+  trackingNumber?: string;
+  useOldLabel: boolean = false;
   labelFileName: string = '';
   labelPath?: string;
   createdDate: Date = new Date();
   status: DonationStatus = DonationStatus.Donated;
+  amount?: number;
 
   products: DonationProduct[];
-  container?: Donation; // This will be set later when the container is fetched
+  containerType?: ContainerType;
+  clinic?: Clinic;
 
   constructor(
-    containerType: number,
-    containerId: number,
+    clinicId: number,
+    packageType: number,
     products: DonationProduct[],
-    length: number | undefined = undefined,
-    width: number | undefined = undefined,
-    height: number | undefined = undefined
+    containerTypeId?: number,
+    fedexPackagingTypeId?: number,
+    trackingNumber?: string
   ) {
-    this.containerId = containerId;
-    this.containerType = containerType;
+    this.clinicId = clinicId;
+    this.packageType = packageType;
     this.products = products;
-    this.length = length;
-    this.width = width;
-    this.height = height;
+    this.containerTypeId = containerTypeId;
+    this.fedexPackagingTypeId = fedexPackagingTypeId;
+    this.trackingNumber = trackingNumber;
   }
 
   get ProductIds(): number[] {

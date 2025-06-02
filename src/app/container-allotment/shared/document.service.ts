@@ -5,13 +5,13 @@ import { environment } from '../../../environments/environment.development';
 @Injectable({
   providedIn: 'root',
 })
-export class LabelService {
-  private readonly baseUrl = `${environment.apiUrl}/label`; // Replace with your API URL
+export class DocumentService {
+  private readonly baseUrl = `${environment.apiUrl}/documents`; // Replace with your API URL
 
   constructor(private httpClient: HttpClient) {}
 
   getLabel(labelFileName: string) {
-    return this.httpClient.get(`${this.baseUrl}/${labelFileName}`, {
+    return this.httpClient.get(`${this.baseUrl}/label/${labelFileName}`, {
       responseType: 'blob',
     });
   }

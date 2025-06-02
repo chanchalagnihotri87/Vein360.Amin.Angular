@@ -1,14 +1,17 @@
 import { Component, Input, OnInit, output } from '@angular/core';
-import ContainerListItem from '../../container/shared/container-list-item-model';
-import DonationContainer from '../../container/shared/donation-container.model';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import ContainerListItem from '../../container-allotment/shared/container-list-item-model';
+import DonationContainer from '../../container-allotment/shared/donation-container.model';
 import Product from '../../product/shared/product.model';
-import { ContainerType } from '../../shared/enums/container-type.enum';
+import { PackageType } from '../../shared/enums/package-type.enum';
+import { RejectionInfoComponent } from '../rejection-info/rejection-info.component';
 import Donation from '../shared/donation.model';
 import FedexService from '../shared/fedex.service';
+import PackTypeService from '../shared/pack-type.service';
 
 @Component({
   selector: 'app-donation-detail',
-  imports: [],
+  imports: [PopoverModule, RejectionInfoComponent],
   templateUrl: './donation-detail.component.html',
 })
 export class DonationDetailComponent implements OnInit {
@@ -18,7 +21,10 @@ export class DonationDetailComponent implements OnInit {
   @Input({ required: true }) containers: DonationContainer[] = [];
   @Input({ required: true }) products: Product[] = [];
 
-  constructor(private fedexPackService: FedexService) {}
+  constructor(
+    private fedexPackService: FedexService,
+    private packTypeService: PackTypeService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -31,26 +37,24 @@ export class DonationDetailComponent implements OnInit {
   }
 
   get associatedContainers(): ContainerListItem[] {
-    if (this.donation?.containerType === ContainerType.FedexContainer) {
+    if (this.donation?.packageType === PackageType.FedexPackage) {
       return this.fedexPacks.map(
         (pack) => new ContainerListItem(pack.id, pack.description)
       );
     }
 
-    return this.containers.map(
-      (item) =>
-        new ContainerListItem(
-          item.id,
-          `#${item.id} ${item.containerType?.name} ${
-            item.container?.containerCode
-              ? `[${item.container?.containerCode}]`
-              : ''
-          }`
-        )
-    );
+    return [];
   }
 
-  get ContainerType() {
-    return ContainerType;
+  get PackageType() {
+    return PackageType;
+  }
+
+  public GetPackageTypeDesription(packageType?: number) {
+    return this.packTypeService.GetPackageTypeDescription(packageType);
+  }
+
+  public GetFedexPackageDescription(fedexPackagingTypeId?: number) {
+    return this.fedexPackService.GetFedexPackDescription(fedexPackagingTypeId);
   }
 }

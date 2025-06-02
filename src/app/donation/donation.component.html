@@ -37,11 +37,11 @@
               {{ donation.createdDate | date : "mediumDate" }}
             </td>
             <td>
-              @switch(donation.containerType) { @case
-              (ContainerType.Vein360Container) { Vein360 Container } @case
-              (ContainerType.FedexContainer) { Fedex Container } @case
-              (ContainerType.OwnCustomPacking) { Own Custom Packing } @default {
-              Own Custom Packing } }
+              @switch(donation.packageType) { @case
+              (PackageType.Vein360Container) { Vein360 Container } @case
+              (PackageType.FedexPackage) { Fedex Package } @case
+              (PackageType.CustomPackage) { Custom Package } @default { Own
+              Custom Packing } }
             </td>
             <td>Chanchal Kumar</td>
             <td>
@@ -82,51 +82,8 @@
                       Delete
                     </button>
                   </li>
-                  @if(donation.status!=DonationStatus.Processed &&
-                  donation.status!=DonationStatus.Paid){
-                  <li>
-                    <button
-                      type="button"
-                      class="dropdown-item"
-                      (click)="handleShowProcessDonation(donation.id)"
-                    >
-                      Process
-                    </button>
-                  </li>
-                  }
                 </ul>
               </div>
-
-              <!-- <button
-                type="button"
-                class="btn btn-outline-secondary btn-sm me-2"
-                tooltip="Detail"
-                (click)="showDetail(donation.id)"
-              >
-                <i class="fa fa-eye fa-lg"></i>
-              </button>
-
-              @if(donation.status == DonationStatus.Pending) {
-              <button
-                class="btn btn-outline-secondary btn-sm me-2"
-                data-toggle="tooltip"
-                data-placement="top"
-                tooltip="Dispatch"
-                (click)="dispatchDonation(donation.id)"
-              >
-                <i class="fa fa-truck fa-lg"></i>
-              </button>
-
-              <button
-                class="btn btn-outline-secondary btn-sm"
-                data-toggle="tooltip"
-                data-placement="top"
-                tooltip="Delete"
-                (click)="deleteDonation(donation.id)"
-              >
-                <i class="fa fa-trash fa-lg"></i>
-              </button>
-              } -->
             </td>
           </tr>
           }
