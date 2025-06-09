@@ -390,3 +390,13 @@ header,
   border-radius: 10px;
   margin-top: 3.7px;
 }
+
+.nav-content {
+  border: 1px solid #00000014;
+  border-top: none;
+}
+
+.form-check-input:checked {
+  background-color: var(--theme-color);
+  border-color: var(--theme-color);
+}

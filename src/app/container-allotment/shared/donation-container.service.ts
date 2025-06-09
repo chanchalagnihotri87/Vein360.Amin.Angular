@@ -14,7 +14,7 @@ export class DonationContainerService {
   constructor(private httpClient: HttpClient) {}
 
   getContainers() {
-    return this.httpClient.get<DonationContainer[]>(this.baseUrl);
+    return this.httpClient.get<DonationContainer[]>(`${this.baseUrl}/all`);
   }
 
   getAvalableContainers(): Observable<DonationContainer[]> {

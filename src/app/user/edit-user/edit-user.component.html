@@ -1,0 +1,102 @@
+<div class="user-card">
+  <div class="user-card-header">
+    <div class="row w-100">
+      <div class="col-md-9"><h4 class="user-card-title">Edit User</h4></div>
+      <div class="col-md-3 text-end">
+        <button
+          class="btn btn-outline-secondary btn-sm float-end"
+          (click)="goBackToUsersPage()"
+        >
+          Back
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="user-card-body">
+    <ul class="nav nav-tabs">
+      <li class="nav-items">
+        <button
+          class="nav-link {{ userDetailTabIsActive ? 'active' : '' }}"
+          (click)="showUserDetail()"
+        >
+          User Detail
+        </button>
+      </li>
+      <li class="nav-items">
+        <button
+          class="nav-link {{ clinicsTabIsActive ? 'active' : '' }}"
+          (click)="showClinics()"
+        >
+          Clinics
+        </button>
+      </li>
+      <li class="nav-items">
+        <button
+          class="nav-link {{ preferencesTabIsActive ? 'active' : '' }}"
+          (click)="showPreferences()"
+        >
+          Preferences
+        </button>
+      </li>
+    </ul>
+    <div class="nav-content p-3 {{ userDetailTabIsActive ? '' : 'd-none' }}">
+      <form [formGroup]="userForm" (ngSubmit)="submitForm()" #form="ngForm">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label>Email</label>
+            <input type="text" class="form-control" formControlName="email" />
+
+            <app-validation-message
+              fieldName="email"
+              [formGroup]="userForm"
+              [ngFormTemplate]="form"
+            ></app-validation-message>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="isDonor"
+              />
+              <label class="form-check-label">Donor</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                formControlName="isAdmin"
+              />
+              <label class="form-check-label">Admin</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-12">
+            <button type="submit" class="btn vein-btn-success">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="nav-content p-3 {{ clinicsTabIsActive ? '' : 'd-none' }}">
+      <app-clinic
+        [clinics]="clinics"
+        [userId]="id"
+        (onLoadClinics)="loadClinics()"
+      ></app-clinic>
+    </div>
+
+    <div class="nav-content p-3 {{ preferencesTabIsActive ? '' : 'd-none' }}">
+      <app-preferences [clinics]="clinics" [userId]="id"></app-preferences>
+    </div>
+  </div>
+</div>

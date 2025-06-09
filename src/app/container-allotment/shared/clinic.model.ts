@@ -1,7 +1,15 @@
 export default class Clinic {
+  public id?: number;
+  public userId?: number;
+
   constructor(
-    public id: number,
     public clinicCode: string,
-    public clinicName: string
+    public clinicName: string,
+    public phone: string,
+    public streetLine: string,
+    public city: string,
+    public state: string,
+    public country: string,
+    public postalCode: string
   ) {}
 }

@@ -1,0 +1,109 @@
+<form [formGroup]="clinicForm" (ngSubmit)="submitForm()" #form="ngForm">
+  <div class="modal-header">
+    <h5 class="modal-title" id="donationModalLabel">Add User</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-3 g-3">
+      <div class="col-md-4">
+        <label>Clinic Name</label>
+        <input type="text" class="form-control" formControlName="clinicName" />
+        <app-validation-message
+          fieldName="clinicName"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-md-4">
+        <label>Clinic Code</label>
+        <input type="text" class="form-control" formControlName="clinicCode" />
+        <app-validation-message
+          fieldName="clinicCode"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-4">
+        <label>Phone</label>
+        <input type="text" class="form-control" formControlName="phone" />
+        <app-validation-message
+          fieldName="phone"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-12">
+        <label>Street Address</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="streetAddress"
+        />
+        <app-validation-message
+          fieldName="streetAddress"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-4">
+        <label>City</label>
+        <input type="text" class="form-control" formControlName="city" />
+        <app-validation-message
+          fieldName="city"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-4">
+        <label>State</label>
+        <select class="form-select" formControlName="state">
+          <option value="">Select State</option>
+          @for (state of states; track state.code) {
+          <option [value]="state.code">{{ state.description }}</option>
+          }
+        </select>
+        <app-validation-message
+          fieldName="state"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-4">
+        <label>Country</label>
+        <select class="form-select" formControlName="country">
+          <option value="">Select Country</option>
+          @for (country of countries; track country.code) {
+          <option [value]="country.code">{{ country.description }}</option>
+          }
+        </select>
+        <app-validation-message
+          fieldName="state"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-4">
+        <label>Postal Code</label>
+        <input class="form-control" formControlName="postalCode" />
+        <app-validation-message
+          fieldName="postalCode"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="vein-btn-success">Submit</button>
+    <button type="button" class="vein-btn-light" (click)="closeModal()">
+      Cancel
+    </button>
+  </div>
+</form>
