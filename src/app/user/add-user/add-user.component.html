@@ -1,0 +1,66 @@
+<form [formGroup]="userForm" (ngSubmit)="submitForm()" #form="ngForm">
+  <div class="modal-header">
+    <h5 class="modal-title" id="donationModalLabel">Add User</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label>Email</label>
+        <input type="text" class="form-control" formControlName="email" />
+        <app-validation-message
+          fieldName="email"
+          [formGroup]="userForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-md-4">
+        <label>Password</label>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+        />
+        <app-validation-message
+          fieldName="password"
+          [formGroup]="userForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-4">
+        <label class="w-100">Role</label>
+        <div class="w-100 mt-2">
+          <div class="form-check form-switch form-check-inline">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="isDonor"
+            />
+            <label class="form-check-label">Donor</label>
+          </div>
+          <div class="form-check form-switch form-check-inline">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="isAdmin"
+            />
+            <label class="form-check-label">Admin</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="vein-btn-success">Submit</button>
+    <button type="button" class="vein-btn-light" (click)="closeModal()">
+      Cancel
+    </button>
+  </div>
+</form>

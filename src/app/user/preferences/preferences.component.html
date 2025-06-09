@@ -1,0 +1,18 @@
+<form [formGroup]="preferencesForm" (ngSubmit)="submitForm()" #form="ngForm">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label>Default Clinic</label>
+      <select class="form-select" formControlName="defaultClinicId">
+        <option value="">Select Default Clinic</option>
+        @for (clinic of clinics; track clinic.id) {
+        <option [value]="clinic.id">{{ clinic.clinicCode }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-12">
+      <button type="submit" class="btn vein-btn-success">Save</button>
+    </div>
+  </div>
+</form>

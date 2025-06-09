@@ -14,7 +14,7 @@ export class DonationService {
   constructor(private httpClient: HttpClient) {}
 
   getDonations() {
-    return this.httpClient.get<Donation[]>(this.baseUrl);
+    return this.httpClient.get<Donation[]>(`${this.baseUrl}/all`);
   }
 
   getDonationById(donationId: number) {

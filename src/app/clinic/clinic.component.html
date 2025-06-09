@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-12 text-end">
+    <button class="vein-btn-success btn-sm" (click)="showAddClinicModal()">
+      <i class="fa fa-plus"></i> Add Clinic
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-borderless" id="donation-table">
+        <thead>
+          <tr>
+            <th>#Id</th>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (clinic of clinics(); track clinic.id) {
+          <tr>
+            <td>{{ clinic.id }}</td>
+            <td>{{ clinic.clinicName }}</td>
+            <td>{{ clinic.clinicCode }}</td>
+            <td>{{ clinic.phone }}</td>
+            <td class="text-wrap">{{ getAddress(clinic) }}</td>
+            <td>
+              <div class="dropdown">
+                <button
+                  class="btn btn-default"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="fa fa-ellipsis-v"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <button
+                      type="button"
+                      class="dropdown-item"
+                      (click)="showEditClinicModal(clinic.id!)"
+                    >
+                      Edit
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      class="dropdown-item"
+                      (click)="handleDeleteDonation(clinic.id!)"
+                    >
+                      Delete
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

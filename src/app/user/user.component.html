@@ -1,0 +1,66 @@
+<div class="user-card">
+  <div class="user-card-header">
+    <h4 class="user-card-title">Users</h4>
+    <button
+      class="vein-btn-success btn-sm float-end"
+      type="button"
+      (click)="showAddUserModal()"
+    >
+      <i class="fa fa-plus"></i>
+      Add User
+    </button>
+  </div>
+  <div class="user-card-body">
+    <table class="table table-borderless text-nowrap" id="donation-table">
+      <thead>
+        <tr>
+          <th>#Id</th>
+          <th>Email</th>
+          <th>Roles</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users; track user.id) {
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ getRoles(user) }}</td>
+          <td>
+            <div class="dropdown">
+              <button
+                class="btn btn-default"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fa fa-ellipsis-v"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <button
+                    type="button"
+                    class="dropdown-item"
+                    (click)="editUser(user)"
+                  >
+                    Edit
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="dropdown-item"
+                    (click)="deleteUser(user.id)"
+                  >
+                    Delete
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -13,13 +13,12 @@ import {
 } from '@angular/forms';
 import ProcessedProduct from '../../product/shared/processed-product.model';
 import { PackageType } from '../../shared/enums/package-type.enum';
-import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import FedexService from '../shared/fedex.service';
 import ProcessedDonation from '../shared/processed-donation-model';
 
 @Component({
   selector: 'process-donation',
-  imports: [ReactiveFormsModule, ValidationMessageComponent],
+  imports: [ReactiveFormsModule],
   templateUrl: './process-donation.component.html',
 })
 export class ProcessDonationComponent implements OnInit {
