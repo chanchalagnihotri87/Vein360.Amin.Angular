@@ -16,7 +16,6 @@ export class DonorPreferencesService {
   }
 
   getPreferences(donorId: number) {
-    debugger;
     return this.httpClient.get<DonorPreferences>(`${this.baseUrl}/${donorId}`);
   }
 }

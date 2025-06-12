@@ -12,8 +12,13 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ClinicComponent } from '../../clinic/clinic.component';
+import Product from '../../product/shared/product.model';
+import { ProductService } from '../../product/shared/product.service';
 import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import { PreferencesComponent } from '../preferences/preferences.component';
+import { ProductRatesComponent } from '../product-rates/product-rates.component';
+import { ProductRateService } from '../product-rates/shared/product-rate.service';
+import ProductRate from '../product-rates/shared/product.rate.model';
 import { ClinicService } from '../shared/clinic.service';
 import User from '../shared/user.model';
 import { UserService } from '../shared/user.service';
@@ -25,6 +30,7 @@ import { UserService } from '../shared/user.service';
     ReactiveFormsModule,
     ValidationMessageComponent,
     PreferencesComponent,
+    ProductRatesComponent,
   ],
   templateUrl: './edit-user.component.html',
 })
@@ -32,7 +38,10 @@ export class EditUserComponent implements OnInit {
   @Input({ required: true }) id: number = 0;
 
   public clinics: Clinic[] = [];
-  public currentTab: 'UserDetail' | 'Clinics' | 'Preferences' = 'UserDetail';
+  public products: Product[] = [];
+  public productRates: ProductRate[] = [];
+  public currentTab: 'UserDetail' | 'Clinics' | 'Preferences' | 'ProductRates' =
+    'UserDetail';
 
   public userForm: FormGroup;
 
@@ -44,7 +53,9 @@ export class EditUserComponent implements OnInit {
     private clinicService: ClinicService,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private productService: ProductService,
+    private productRateService: ProductRateService
   ) {
     this.setBreadcrumb();
     this.userForm = this.createUserForm();
@@ -53,6 +64,8 @@ export class EditUserComponent implements OnInit {
   ngOnInit(): void {
     this.loadClinics();
     this.loadUser(this.id);
+    this.loadProducts();
+    this.loadProductRates(this.id);
   }
 
   showUserDetail() {
@@ -65,6 +78,10 @@ export class EditUserComponent implements OnInit {
 
   showPreferences() {
     this.currentTab = 'Preferences';
+  }
+
+  showProductRates() {
+    this.currentTab = 'ProductRates';
   }
 
   //#region  Public Methods
@@ -101,6 +118,11 @@ export class EditUserComponent implements OnInit {
   get preferencesTabIsActive() {
     return this.currentTab == 'Preferences';
   }
+
+  get productRatesTabIsActive() {
+    return this.currentTab == 'ProductRates';
+  }
+
   //#endregion
 
   //#region Private Methods
@@ -139,6 +161,20 @@ export class EditUserComponent implements OnInit {
       isDonor: user.isDonor,
       isAdmin: user.isAdmin,
     });
+  }
+
+  private loadProducts() {
+    this.productService.getProducts().subscribe((products) => {
+      this.products = products;
+    });
+  }
+
+  private loadProductRates(userId: number) {
+    this.productRateService
+      .getProductRates(userId)
+      .subscribe((productRates) => {
+        this.productRates = productRates;
+      });
   }
   //#endregion
 }

@@ -38,6 +38,15 @@
           Preferences
         </button>
       </li>
+
+      <li class="nav-items">
+        <button
+          class="nav-link {{ productRatesTabIsActive ? 'active' : '' }}"
+          (click)="showProductRates()"
+        >
+          Product Rates
+        </button>
+      </li>
     </ul>
     <div class="nav-content p-3 {{ userDetailTabIsActive ? '' : 'd-none' }}">
       <form [formGroup]="userForm" (ngSubmit)="submitForm()" #form="ngForm">
@@ -97,6 +106,14 @@
 
     <div class="nav-content p-3 {{ preferencesTabIsActive ? '' : 'd-none' }}">
       <app-preferences [clinics]="clinics" [userId]="id"></app-preferences>
+    </div>
+
+    <div class="nav-content p-3 {{ productRatesTabIsActive ? '' : 'd-none' }}">
+      <app-product-rates
+        [products]="products"
+        [productRates]="productRates"
+        [userId]="id"
+      ></app-product-rates>
     </div>
   </div>
 </div>

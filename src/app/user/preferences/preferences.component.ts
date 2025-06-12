@@ -49,7 +49,6 @@ export class PreferencesComponent implements OnInit {
     this.donorPreferencesService
       .getPreferences(donorId)
       .subscribe((preferences) => {
-        debugger;
         this.preferences = preferences;
         this.loadPreferenceFormDefaultValues();
       });

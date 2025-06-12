@@ -1,0 +1,95 @@
+<form [formGroup]="productRateForm" (ngSubmit)="sumbitForm()">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-borderless" id="donation-table">
+          <thead>
+            <tr>
+              <th>#Id</th>
+              <th>Name</th>
+              <th>Selling Price</th>
+              <th class="text-nowrap">
+                Sales Credit<button
+                  type="button"
+                  class="btn-link btn-link-icon"
+                  [popover]="popOverTemplate"
+                  popoverTitle="Info"
+                  triggers="mouseenter:mouseleave"
+                  placement="right"
+                >
+                  <i class="fa fa-info-circle"></i>
+                </button>
+                <ng-template #popOverTemplate
+                  >Receive via Sales Credit</ng-template
+                >
+              </th>
+              <th>Buying Price</th>
+              <th class="text-nowrap">
+                Sales Credit<button
+                  type="button"
+                  class="btn-link btn-link-icon"
+                  [popover]="paymentPopOverTemplate"
+                  popoverTitle="Info"
+                  triggers="mouseenter:mouseleave"
+                  placement="left"
+                >
+                  <i class="fa fa-info-circle"></i>
+                </button>
+                <ng-template #paymentPopOverTemplate
+                  >Pay via Sales Credit</ng-template
+                >
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Product Controls -->
+            @if(productRateFormControls.length>0){
+            <ng-container formArrayName="productRates">
+              @for(productControl of productRateFormControls.controls; track
+              $index; let index=$index){
+              <tr [formGroupName]="index">
+                <td>
+                  {{ productControl.get("productId")?.value }}
+                </td>
+
+                <td>{{ productControl.get("productName")?.value }}</td>
+
+                <td>
+                  <input class="form-control" formControlName="sellingPrice" />
+                </td>
+                <td align="center">
+                  <div class="form-check form-switch">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      formControlName="payToSalesCredit"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <input class="form-control" formControlName="buyingPrice" />
+                </td>
+                <td align="center">
+                  <div class="form-check form-switch">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      formControlName="payFromSalesCredit"
+                    />
+                  </div>
+                </td>
+              </tr>
+              }
+            </ng-container>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <button type="submit" class="vein-btn-success float-end">Save</button>
+    </div>
+  </div>
+</form>
