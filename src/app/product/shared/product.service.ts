@@ -44,11 +44,15 @@ export class ProductService {
   }
 
   private createFormData(product: Product) {
+    debugger;
     const formData = new FormData();
     formData.append('name', product.name);
     formData.append('type', product.type.toString());
-    formData.append('description', product.description ?? '');
-    formData.append('imageFile', product.imageFile!);
+    formData.append('vein360ProductId', product.vein360ProductId ?? '');
+    if (product.imageFile) {
+      formData.append('imageFile', product.imageFile!);
+    }
+
     formData.append('price', product.price!.toString());
 
     return formData;

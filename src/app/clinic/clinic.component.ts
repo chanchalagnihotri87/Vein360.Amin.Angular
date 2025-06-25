@@ -82,7 +82,7 @@ export class ClinicComponent {
   }
 
   getAddress(clinic: Clinic) {
-    return `${clinic.streetLine}, ${clinic.city}, ${
+    return `${clinic.addressLine1}, ${clinic.city}, ${
       this.stateService.getState(clinic.state)?.description
     } 
       ${this.countryService.getCountry(clinic.country)?.description} 

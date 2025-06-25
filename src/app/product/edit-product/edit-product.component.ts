@@ -47,7 +47,7 @@ export class EditProductComponent implements OnInit {
       let updatedProduct = new Product(
         this.productForm.value.name,
         this.productForm.value.type,
-        this.productForm.value.description,
+        this.productForm.value.vein360ProductId,
         this.productForm.value.price
       );
 
@@ -91,7 +91,7 @@ export class EditProductComponent implements OnInit {
   private createProductForm() {
     return this.formBuilder.group({
       name: ['', Validators.required],
-      description: [''],
+      vein360ProductId: ['', [Validators.required, Validators.maxLength(11)]],
       type: ['', Validators.required],
       price: ['', Validators.required],
       imageFile: [null],
@@ -100,7 +100,9 @@ export class EditProductComponent implements OnInit {
 
   private fillProductForm(product: Product) {
     this.productForm.get('name')?.setValue(product.name);
-    this.productForm.get('description')?.setValue(product.description);
+    this.productForm
+      .get('vein360ProductId')
+      ?.setValue(product.vein360ProductId);
     this.productForm.get('type')?.setValue(product.type);
     this.productForm.get('price')?.setValue(product.price);
   }

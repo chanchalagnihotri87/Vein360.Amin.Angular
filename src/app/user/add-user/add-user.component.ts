@@ -28,7 +28,7 @@ export class AddUserComponent {
   public submitForm() {
     if (this.userForm.valid) {
       let newUserRequest = new CreateUserRequest(
-        this.userForm.value.email,
+        this.userForm.value.username,
         this.userForm.value.password,
         this.userForm.value.isDonor,
         this.userForm.value.isAdmin
@@ -47,7 +47,7 @@ export class AddUserComponent {
   //#region Private Methods
   private createUserForm() {
     return this.formBuilder.group({
-      email: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required],
       isDonor: [false],
       isAdmin: [false],

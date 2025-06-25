@@ -5,7 +5,7 @@
       <select class="form-select" formControlName="defaultClinicId">
         <option value="">Select Default Clinic</option>
         @for (clinic of clinics; track clinic.id) {
-        <option [value]="clinic.id">{{ clinic.clinicCode }}</option>
+        <option [value]="clinic.id">{{ clinic.clinicName }}</option>
         }
       </select>
     </div>

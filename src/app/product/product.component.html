@@ -27,14 +27,12 @@
           <td>{{ product.id }}</td>
           <td>{{ product.name }}</td>
           <td>
-            @switch (product.type) { @case (ProductType.ClosureFastCatheter){
-            <span>Closure Fast Catheter</span>
-            } @case (ProductType.IntroducerSheath){
-            <span>Introducer Sheath</span>
-            } @case (ProductType.IVUSCatheter){
-            <span>IVUS Catheter</span>
-            } @case (ProductType.ProcedurePack){
-            <span>Procedure Pack</span>
+            @switch (product.type) { @case (ProductType.ClosureFast){
+            <span>Closure Fast </span>
+            } @case (ProductType.IVUS){
+            <span>IVUS</span>
+            } @case (ProductType.Urology){
+            <span>Urology</span>
             } }
           </td>
           <td>{{ product.price }}</td>

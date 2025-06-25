@@ -66,7 +66,6 @@ export class ProductComponent {
     );
 
     this.productModalRef.content.onSubmit.subscribe((product: Product) => {
-      debugger;
       this.handleUpdateProduct(product);
       this.closeModal();
     });

@@ -7,7 +7,7 @@ export default class Product {
   constructor(
     public name: string,
     public type: ProductType,
-    public description?: string,
+    public vein360ProductId: string,
     public price?: number,
     public image?: string
   ) {}

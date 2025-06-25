@@ -3,4 +3,8 @@
 <div class="text-danger">* Required</div>
 } @if(fieldErrors['email']==true){
 <div class="text-danger">* Invalid Email</div>
+} @if(fieldErrors['maxlength']){
+<div class="text-danger">
+  * Max {{ fieldErrors["maxlength"].requiredLength }} characters
+</div>
 } }

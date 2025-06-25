@@ -33,10 +33,12 @@ export class ClinicModalComponent implements OnInit {
   ngOnInit(): void {
     if (this.clinic) {
       this.clinicForm.patchValue({
-        clinicCode: this.clinic.clinicCode,
         clinicName: this.clinic.clinicName,
-        phone: this.clinic.phone,
-        streetAddress: this.clinic.streetLine,
+        contactName: this.clinic.contactName,
+        contactEmail: this.clinic.contactEmail,
+        contactPhone: this.clinic.contactPhone,
+        addressLine1: this.clinic.addressLine1,
+        addressLine2: this.clinic.addressLine2,
         city: this.clinic.city,
         state: this.clinic.state,
         country: this.clinic.country,
@@ -52,10 +54,12 @@ export class ClinicModalComponent implements OnInit {
   submitForm() {
     if (this.clinicForm.valid) {
       var newClinic = new Clinic(
-        this.clinicForm.value.clinicCode,
         this.clinicForm.value.clinicName,
-        this.clinicForm.value.phone,
-        this.clinicForm.value.streetAddress,
+        this.clinicForm.value.contactName,
+        this.clinicForm.value.contactEmail,
+        this.clinicForm.value.contactPhone,
+        this.clinicForm.value.addressLine1,
+        this.clinicForm.value.addressLine2,
         this.clinicForm.value.city,
         this.clinicForm.value.state,
         this.clinicForm.value.country,
@@ -82,9 +86,11 @@ export class ClinicModalComponent implements OnInit {
   createClinicForm() {
     return this.formBuilder.group({
       clinicName: ['', Validators.required],
-      clinicCode: ['', Validators.required],
-      phone: ['', Validators.required],
-      streetAddress: ['', Validators.required],
+      contactName: [''],
+      contactEmail: [''],
+      contactPhone: ['', Validators.required],
+      addressLine1: ['', Validators.required],
+      addressLine2: [''],
       city: ['', Validators.required],
       state: ['', Validators.required],
       country: ['', Validators.required],

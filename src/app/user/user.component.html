@@ -15,7 +15,7 @@
       <thead>
         <tr>
           <th>#Id</th>
-          <th>Email</th>
+          <th>Username</th>
           <th>Roles</th>
           <th>Action</th>
         </tr>
@@ -24,7 +24,7 @@
         @for (user of users; track user.id) {
         <tr>
           <td>{{ user.id }}</td>
-          <td>{{ user.email }}</td>
+          <td>{{ user.username }}</td>
           <td>{{ getRoles(user) }}</td>
           <td>
             <div class="dropdown">

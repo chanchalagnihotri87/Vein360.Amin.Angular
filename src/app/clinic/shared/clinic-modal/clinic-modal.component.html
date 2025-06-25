@@ -11,7 +11,7 @@
   </div>
   <div class="modal-body">
     <div class="row mb-3 g-3">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label>Clinic Name</label>
         <input type="text" class="form-control" formControlName="clinicName" />
         <app-validation-message
@@ -21,38 +21,68 @@
         ></app-validation-message>
       </div>
 
-      <div class="col-md-4">
-        <label>Clinic Code</label>
-        <input type="text" class="form-control" formControlName="clinicCode" />
+      <div class="col-md-3">
+        <label>Contact Name</label>
+        <input type="text" class="form-control" formControlName="contactName" />
         <app-validation-message
-          fieldName="clinicCode"
+          fieldName="contactName"
           [formGroup]="clinicForm"
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
-      <div class="col-md-4">
-        <label>Phone</label>
-        <input type="text" class="form-control" formControlName="phone" />
-        <app-validation-message
-          fieldName="phone"
-          [formGroup]="clinicForm"
-          [ngFormTemplate]="form"
-        ></app-validation-message>
-      </div>
-      <div class="col-md-12">
-        <label>Street Address</label>
+      <div class="col-md-3">
+        <label>Contact Email</label>
         <input
           type="text"
           class="form-control"
-          formControlName="streetAddress"
+          formControlName="contactEmail"
         />
         <app-validation-message
-          fieldName="streetAddress"
+          fieldName="contactEmail"
           [formGroup]="clinicForm"
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
+        <label>Contact Phone</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="contactPhone"
+        />
+        <app-validation-message
+          fieldName="contactPhone"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-6">
+        <label>Address Line 1</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="addressLine1"
+        />
+        <app-validation-message
+          fieldName="addressLine1"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-6">
+        <label>Address Line 2</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="addressLine2"
+        />
+        <app-validation-message
+          fieldName="addressLine2"
+          [formGroup]="clinicForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-3">
         <label>City</label>
         <input type="text" class="form-control" formControlName="city" />
         <app-validation-message
@@ -61,7 +91,7 @@
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label>State</label>
         <select class="form-select" formControlName="state">
           <option value="">Select State</option>
@@ -75,7 +105,7 @@
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label>Country</label>
         <select class="form-select" formControlName="country">
           <option value="">Select Country</option>
@@ -89,7 +119,7 @@
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label>Postal Code</label>
         <input class="form-control" formControlName="postalCode" />
         <app-validation-message

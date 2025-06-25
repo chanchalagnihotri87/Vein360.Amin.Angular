@@ -90,7 +90,7 @@ export class EditUserComponent implements OnInit {
     if (this.userForm.valid) {
       var updatedUser = new User(
         this.user!.id,
-        this.userForm.value.email,
+        this.userForm.value.username,
         this.userForm.value.isDonor,
         this.userForm.value.isAdmin
       );
@@ -142,7 +142,7 @@ export class EditUserComponent implements OnInit {
 
   private createUserForm() {
     return this.formBuilder.group({
-      email: ['', Validators.required],
+      username: ['', Validators.required],
       isDonor: [false],
       isAdmin: [false],
     });
@@ -157,7 +157,7 @@ export class EditUserComponent implements OnInit {
 
   private fillForm(user: User) {
     this.userForm?.patchValue({
-      email: user.email,
+      username: user.username,
       isDonor: user.isDonor,
       isAdmin: user.isAdmin,
     });

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './auth.guard';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ContainerAllotmentComponent } from './container-allotment/container-allotment.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DonationComponent } from './donation/donation.component';
@@ -29,5 +30,10 @@ export const routes: Routes = [
   {
     path: 'user/:id',
     component: EditUserComponent,
+  },
+  {
+    path: 'changepassword',
+    component: ChangePasswordComponent,
+    canActivate: [authGuard],
   },
 ];

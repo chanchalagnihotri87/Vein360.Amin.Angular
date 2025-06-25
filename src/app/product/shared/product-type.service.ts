@@ -8,16 +8,9 @@ import { ProductType } from './product-type.enum';
 export class ProductTypeService {
   getProductTypes() {
     return [
-      new ProductTypeListItem(
-        ProductType.ClosureFastCatheter,
-        'Closure Fast Catheter'
-      ),
-      new ProductTypeListItem(
-        ProductType.IntroducerSheath,
-        'Introducer Sheath'
-      ),
-      new ProductTypeListItem(ProductType.IVUSCatheter, 'IVUS Catheter'),
-      new ProductTypeListItem(ProductType.ProcedurePack, 'Procedure Pack'),
+      new ProductTypeListItem(ProductType.ClosureFast, 'Closure Fast'),
+      new ProductTypeListItem(ProductType.IVUS, 'IVUS'),
+      new ProductTypeListItem(ProductType.Urology, 'Urology'),
     ];
   }
 }

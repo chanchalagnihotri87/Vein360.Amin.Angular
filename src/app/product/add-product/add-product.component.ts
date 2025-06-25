@@ -43,7 +43,7 @@ export class AddProductComponent implements OnInit {
       let newProduct = new Product(
         this.productForm.value.name,
         this.productForm.value.type,
-        this.productForm.value.description,
+        this.productForm.value.vein360ProductId,
         this.productForm.value.price
       );
 
@@ -88,7 +88,7 @@ export class AddProductComponent implements OnInit {
   private createProductForm() {
     return this.formBuilder.group({
       name: ['', Validators.required],
-      description: [''],
+      vein360ProductId: ['', [Validators.required, Validators.maxLength(11)]],
       type: ['', Validators.required],
       price: ['', Validators.required],
       imageFile: [null, Validators.required],

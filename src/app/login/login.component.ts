@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ValidationMessageComponent } from '../shared/validation-message/validation-message.component';
 import { AccountService } from './shared/account.service';
 import { AuthService } from './shared/auth.service';
+import AuthenticationResponse from './shared/authentication-response.model';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent {
   private formBuilder = inject(FormBuilder);
 
   loginForm: FormGroup = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
+    username: ['', Validators.required],
     password: ['', Validators.required],
   });
 
@@ -33,15 +34,21 @@ export class LoginComponent {
   login() {
     if (this.loginForm.valid) {
       this.accountService
-        .signIn(this.loginForm.value.email, this.loginForm.value.password)
+        .signIn(this.loginForm.value.username, this.loginForm.value.password)
         .subscribe({
-          next: (token: string) => {
-            this.authService.logIn(token);
+          next: (authResponse: AuthenticationResponse) => {
+            this.authService.logIn(authResponse.token);
+
+            if (authResponse.firstTimeLogin) {
+              this.router.navigate(['changepassword']);
+              return;
+            }
+
             this.router.navigate(['']);
           },
           error: (error) => {
             console.log(error);
-            alert('You email & password are not valid.');
+            alert('You username & password are not valid.');
           },
         });
     }

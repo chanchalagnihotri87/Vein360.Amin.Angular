@@ -13,7 +13,6 @@
           <tr>
             <th>#Id</th>
             <th>Name</th>
-            <th>Code</th>
             <th>Phone</th>
             <th>Address</th>
             <th>Action</th>
@@ -24,8 +23,7 @@
           <tr>
             <td>{{ clinic.id }}</td>
             <td>{{ clinic.clinicName }}</td>
-            <td>{{ clinic.clinicCode }}</td>
-            <td>{{ clinic.phone }}</td>
+            <td>{{ clinic.contactPhone }}</td>
             <td class="text-wrap">{{ getAddress(clinic) }}</td>
             <td>
               <div class="dropdown">

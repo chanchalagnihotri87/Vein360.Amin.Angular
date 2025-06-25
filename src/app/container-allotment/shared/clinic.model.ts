@@ -3,10 +3,12 @@ export default class Clinic {
   public userId?: number;
 
   constructor(
-    public clinicCode: string,
     public clinicName: string,
-    public phone: string,
-    public streetLine: string,
+    public contactName: string,
+    public contactEmail: string,
+    public contactPhone: string,
+    public addressLine1: string,
+    public addressLine2: string,
     public city: string,
     public state: string,
     public country: string,

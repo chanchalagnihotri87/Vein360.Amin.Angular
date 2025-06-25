@@ -30,6 +30,22 @@
       </div>
 
       <div class="col-md-4">
+        <label for="vein360ProductId" class="form-label"
+          >Vein360 Product Id</label
+        >
+        <input
+          formControlName="vein360ProductId"
+          class="form-control"
+          rows="6"
+        />
+        <app-validation-message
+          fieldName="vein360ProductId"
+          [formGroup]="productForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+
+      <div class="col-md-4">
         <label for="type" class="form-label">Product Type </label>
         <select class="form-select" id="type" formControlName="type">
           <option value="">Select Product Type</option>
@@ -45,7 +61,9 @@
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
-
+    </div>
+    <!-- Dmimentions Length, Width, Height -->
+    <div class="row mb-3">
       <div class="col-md-4">
         <label for="price" class="form-label">Price</label>
         <input
@@ -61,33 +79,22 @@
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
-    </div>
-    <!-- Dmimentions Length, Width, Height -->
-    <div class="row mb-3">
-      <div class="col-md-12">
-        <label for="description" class="form-label">Description</label>
-        <textarea
-          formControlName="description"
-          class="form-control"
-          rows="6"
-        ></textarea>
-      </div>
-    </div>
 
-    <div class="col-md-4">
-      <label for="file" class="form-label">Image</label>
-      <input
-        type="file"
-        class="form-control"
-        id="imageFile"
-        placeholder=""
-        (change)="onFileSelected($event)"
-      />
-      <app-validation-message
-        fieldName="imageFile"
-        [formGroup]="productForm"
-        [ngFormTemplate]="form"
-      ></app-validation-message>
+      <div class="col-md-4">
+        <label for="file" class="form-label">Image</label>
+        <input
+          type="file"
+          class="form-control"
+          id="imageFile"
+          placeholder=""
+          (change)="onFileSelected($event)"
+        />
+        <app-validation-message
+          fieldName="imageFile"
+          [formGroup]="productForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
     </div>
   </div>
 
