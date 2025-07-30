@@ -1,0 +1,63 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="donationModalLabel">Donation Detail</h5>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="modal"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+
+<div class="modal-body">
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <label>Product</label>
+      <input class="form-control" value="{{ order?.product?.name }}" disabled />
+    </div>
+
+    <div class="col-md-6">
+      <label>Clinic</label>
+      <input
+        type="text"
+        class="form-control"
+        [value]="order?.clinic?.clinicName"
+        disabled
+      />
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <label>Price</label>
+      <input type="text" [value]="order?.price" class="form-control" disabled />
+    </div>
+    <div class="col-md-6">
+      <label>Status</label>
+      <input
+        class="form-control"
+        [value]="getOrderStatusDescription(order?.status)"
+        disabled
+      />
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <label>Address</label>
+      <p>
+        {{
+          order?.clinic?.addressLine2
+            ? order?.clinic?.addressLine1 + " " + order?.clinic?.addressLine2
+            : order?.clinic?.addressLine1
+        }}, {{ order?.clinic?.city }}, {{ order?.clinic?.state }}
+        {{ order?.clinic?.postalCode }} {{ order?.clinic?.country }}
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="closeModal()">
+    Close
+  </button>
+</div>

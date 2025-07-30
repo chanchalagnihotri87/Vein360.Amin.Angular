@@ -113,11 +113,15 @@
     </div>
 
     <div class="nav-content p-3 {{ productRatesTabIsActive ? '' : 'd-none' }}">
+      @if(productsLoaded && productRatesLoaded){
       <app-product-rates
         [products]="products"
         [productRates]="productRates"
         [userId]="id"
       ></app-product-rates>
+      } @else {
+      <p>Loading...</p>
+      }
     </div>
   </div>
 </div>

@@ -5,6 +5,7 @@ import { ContainerAllotmentComponent } from './container-allotment/container-all
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DonationComponent } from './donation/donation.component';
 import { LoginComponent } from './login/login.component';
+import { OrderComponent } from './order/order.component';
 import { ProductComponent } from './product/product.component';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
 import { UserComponent } from './user/user.component';
@@ -35,5 +36,9 @@ export const routes: Routes = [
     path: 'changepassword',
     component: ChangePasswordComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'order',
+    component: OrderComponent,
   },
 ];

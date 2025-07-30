@@ -42,6 +42,8 @@ export class EditUserComponent implements OnInit {
   public productRates: ProductRate[] = [];
   public currentTab: 'UserDetail' | 'Clinics' | 'Preferences' | 'ProductRates' =
     'UserDetail';
+  public productsLoaded = false;
+  public productRatesLoaded = false;
 
   public userForm: FormGroup;
 
@@ -64,7 +66,7 @@ export class EditUserComponent implements OnInit {
   ngOnInit(): void {
     this.loadClinics();
     this.loadUser(this.id);
-    this.loadProducts();
+    this.loadProducts(this.id);
     this.loadProductRates(this.id);
   }
 
@@ -163,17 +165,21 @@ export class EditUserComponent implements OnInit {
     });
   }
 
-  private loadProducts() {
-    this.productService.getProducts().subscribe((products) => {
-      this.products = products;
-    });
+  private loadProducts(userId: number) {
+    let productPromise = this.productService
+      .getProducts()
+      .subscribe((products) => {
+        this.products = products;
+        this.productsLoaded = true;
+      });
   }
 
   private loadProductRates(userId: number) {
-    this.productRateService
+    var productRatePromise = this.productRateService
       .getProductRates(userId)
       .subscribe((productRates) => {
         this.productRates = productRates;
+        this.productRatesLoaded = true;
       });
   }
   //#endregion

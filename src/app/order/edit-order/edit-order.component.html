@@ -1,0 +1,76 @@
+<form [formGroup]="orderForm" (submit)="submitOrder()" #form="ngForm">
+  <div class="modal-header">
+    <h5 class="modal-title" id="donationModalLabel">Edit Order</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Product</label>
+        <select class="form-select" formControlName="productId">
+          @for (product of products; track product.id) {
+          <option [value]="product.id">{{ product.name }}</option>
+          }
+        </select>
+        <app-validation-message
+          [formGroup]="orderForm"
+          fieldName="productId"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-6">
+        <label>Clinic</label>
+        <select class="form-select" formControlName="clinicId">
+          @for (clinic of clinics; track clinic.id) {
+          <option [value]="clinic.id">{{ clinic.clinicName }}</option>
+          }
+        </select>
+        <app-validation-message
+          [formGroup]="orderForm"
+          fieldName="clinicId"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Price</label>
+        <input type="number" class="form-control" formControlName="price" />
+        <app-validation-message
+          [formGroup]="orderForm"
+          fieldName="price"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+      <div class="col-md-6">
+        <label>Status</label>
+        <select class="form-select" formControlName="status">
+          <option [value]="OrderStatus.Ordered">
+            {{ getOrderStatusDescription(OrderStatus.Ordered) }}
+          </option>
+          <option [value]="OrderStatus.Processed">
+            {{ getOrderStatusDescription(OrderStatus.Processed) }}
+          </option>
+        </select>
+        <app-validation-message
+          [formGroup]="orderForm"
+          fieldName="status"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="vein-btn-success">Submit</button>
+    <button class="vein-btn-light" type="button" (click)="closeModal()">
+      Cancel
+    </button>
+  </div>
+</form>

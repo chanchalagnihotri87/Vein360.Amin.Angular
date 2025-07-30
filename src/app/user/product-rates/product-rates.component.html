@@ -8,37 +8,9 @@
               <th>#Id</th>
               <th>Name</th>
               <th>Selling Price</th>
-              <th class="text-nowrap">
-                Sales Credit<button
-                  type="button"
-                  class="btn-link btn-link-icon"
-                  [popover]="popOverTemplate"
-                  popoverTitle="Info"
-                  triggers="mouseenter:mouseleave"
-                  placement="right"
-                >
-                  <i class="fa fa-info-circle"></i>
-                </button>
-                <ng-template #popOverTemplate
-                  >Receive via Sales Credit</ng-template
-                >
-              </th>
+              <th class="text-nowrap ps-md-0">Pay to Sales Credit</th>
               <th>Buying Price</th>
-              <th class="text-nowrap">
-                Sales Credit<button
-                  type="button"
-                  class="btn-link btn-link-icon"
-                  [popover]="paymentPopOverTemplate"
-                  popoverTitle="Info"
-                  triggers="mouseenter:mouseleave"
-                  placement="left"
-                >
-                  <i class="fa fa-info-circle"></i>
-                </button>
-                <ng-template #paymentPopOverTemplate
-                  >Pay via Sales Credit</ng-template
-                >
-              </th>
+              <th class="text-nowrap ps-md-0">Buy from Sales Credit</th>
             </tr>
           </thead>
           <tbody>
