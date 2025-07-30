@@ -25,7 +25,7 @@
         ></app-validation-message>
       </div>
       <div class="col-md-6">
-        <label>Clinic</label>
+        <label>Location</label>
         <select class="form-select" formControlName="clinicId">
           @for (clinic of clinics; track clinic.id) {
           <option [value]="clinic.id">{{ clinic.clinicName }}</option>
