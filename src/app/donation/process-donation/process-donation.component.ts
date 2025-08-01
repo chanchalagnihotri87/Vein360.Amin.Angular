@@ -12,8 +12,6 @@ import {
   Validators,
 } from '@angular/forms';
 import ProcessedProduct from '../../product/shared/processed-product.model';
-import { PackageType } from '../../shared/enums/package-type.enum';
-import FedexService from '../shared/fedex.service';
 import ProcessedDonation from '../shared/processed-donation-model';
 
 @Component({
@@ -32,10 +30,7 @@ export class ProcessDonationComponent implements OnInit {
 
   public donationForm: FormGroup;
 
-  constructor(
-    private fedexPackService: FedexService,
-    private formBuilder: FormBuilder
-  ) {
+  constructor(private formBuilder: FormBuilder) {
     this.donationForm = this.createDonationForm();
   }
 
@@ -118,23 +113,5 @@ export class ProcessDonationComponent implements OnInit {
 
   get productFormControls() {
     return this.donationForm.get('products') as FormArray;
-  }
-
-  get fedexPacks() {
-    return this.fedexPackService.FedexPacks;
-  }
-
-  // get associatedContainers(): ContainerListItem[] {
-  //   if (this.donation?.packageType === ContainerType.FedexContainer) {
-  //     return this.fedexPacks.map(
-  //       (pack) => new ContainerListItem(pack.id, pack.description)
-  //     );
-  //   }
-
-  //   return [];
-  // }
-
-  get ContainerType() {
-    return PackageType;
   }
 }

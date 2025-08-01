@@ -59,7 +59,6 @@ export class DonationComponent {
 
   private loadDonations() {
     this.donationService.getDonations().subscribe((donations) => {
-      console.log(donations);
       this.donations = donations;
     });
   }
@@ -68,16 +67,16 @@ export class DonationComponent {
     this.containerService
       .getContainers()
       .subscribe((containers: DonationContainer[]) => {
-        console.log(containers);
         this.donationContainers = containers;
       });
   }
 
   private loadProducts() {
-    this.productService.getProductsAsListItems().subscribe((products) => {
-      console.log(products);
-      this.products = products;
-    });
+    this.productService
+      .getDonationProductsAsListItems()
+      .subscribe((products) => {
+        this.products = products;
+      });
   }
 
   private setBreadcrumb() {
@@ -93,7 +92,6 @@ export class DonationComponent {
   //#region Process Donation
   handleShowProcessDonation(donationId: number) {
     this.donationService.getDonationById(donationId).subscribe((donation) => {
-      console.log(donation);
       this.showProcessDonationModal(donation);
     });
   }
@@ -130,8 +128,6 @@ export class DonationComponent {
     this.donationService
       .processDonation(donation)
       .subscribe((dnt: Donation) => {
-        debugger;
-        console.log(donation);
         this.donations = this.donations.map((d) => (d.id === dnt.id ? dnt : d));
       });
   }
@@ -141,7 +137,6 @@ export class DonationComponent {
   //#region Edit Donation
   handleShowEditDonation(donationId: number) {
     this.donationService.getDonationById(donationId).subscribe((donation) => {
-      console.log(donation);
       this.showEditDonationModal(donation);
     });
   }
@@ -188,7 +183,6 @@ export class DonationComponent {
   //#region Donation Detail
   handleShowDonationDetail(donationId: number) {
     this.donationService.getDonationById(donationId).subscribe((donation) => {
-      console.log(donation);
       this.showDonationDetailModal(donation);
     });
   }

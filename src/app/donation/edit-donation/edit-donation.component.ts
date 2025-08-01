@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, output } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -9,12 +8,9 @@ import {
 
 import DonationContainer from '../../container-allotment/shared/donation-container.model';
 import Product from '../../product/shared/product.model';
-import { PackageType } from '../../shared/enums/package-type.enum';
 import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import { RejectionInfoComponent } from '../rejection-info/rejection-info.component';
 import Donation from '../shared/donation.model';
-import FedexService from '../shared/fedex.service';
-import PackTypeService from '../shared/pack-type.service';
 import UpdatedDonation from '../shared/updated-donation.model';
 
 @Component({
@@ -38,15 +34,10 @@ export class EditDonationComponent implements OnInit {
   public length?: number;
   public width?: number;
   public height?: number;
-  public selectedContainerType: string;
+
   public donationForm: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private fedexPackService: FedexService,
-    private packTypeService: PackTypeService
-  ) {
-    this.selectedContainerType = PackageType.CustomPackage.toString();
+  constructor(private formBuilder: FormBuilder) {
     this.donationForm = this.createDonationForm();
   }
 
@@ -68,32 +59,8 @@ export class EditDonationComponent implements OnInit {
     }
   }
 
-  public containerTypeChanged() {
-    (this.donationForm.get('container') as FormControl)?.setValue(''); // Set
-  }
-
   public closeModal() {
     this.onClose.emit();
-  }
-
-  public GetPackageTypeDesription(packageType?: number) {
-    return this.packTypeService.GetPackageTypeDescription(packageType);
-  }
-
-  public GetFedexPackageDescription(fedexPackagingTypeId?: number) {
-    return this.fedexPackService.GetFedexPackDescription(fedexPackagingTypeId);
-  }
-
-  //#endregion
-
-  //#region Get Properties
-
-  get PackageType() {
-    return PackageType;
-  }
-
-  get fedexPacks() {
-    return this.fedexPackService.FedexPacks;
   }
 
   //#endregion
@@ -107,8 +74,6 @@ export class EditDonationComponent implements OnInit {
   }
 
   private fillDonationForm(donation: Donation) {
-    this.selectedContainerType = donation.packageType.toString();
-
     this.donationForm.get('amount')?.setValue(donation.amount);
   }
 

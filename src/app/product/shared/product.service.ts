@@ -16,6 +16,10 @@ export class ProductService {
     return this.httpClient.get<Product[]>(`${this.baseUrl}/listitems`);
   }
 
+  getDonationProductsAsListItems(): Observable<Product[]> {
+    return this.httpClient.get<Product[]>(`${this.baseUrl}/listitems/sort`);
+  }
+
   getProducts(): Observable<Product[]> {
     return this.httpClient.get<Product[]>(this.baseUrl);
   }

@@ -12,7 +12,6 @@
             <th>Tracking Number</th>
             <th>Status</th>
             <th>Date</th>
-            <th>Packing Type</th>
             <th>Donor</th>
             <th>Action</th>
           </tr>
@@ -37,13 +36,6 @@
             </td>
             <td>
               {{ donation.createdDate | date : "mediumDate" }}
-            </td>
-            <td>
-              @switch(donation.packageType) { @case
-              (PackageType.Vein360Container) { Vein360 Container } @case
-              (PackageType.FedexPackage) { Fedex Package } @case
-              (PackageType.CustomPackage) { Custom Package } @default { Own
-              Custom Packing } }
             </td>
             <td>Chanchal Kumar</td>
             <td>

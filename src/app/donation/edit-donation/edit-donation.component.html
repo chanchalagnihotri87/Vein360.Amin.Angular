@@ -22,44 +22,6 @@
         />
       </div>
 
-      <!-- Package Type -->
-      <div class="col-md-4">
-        <label for="container-type" class="form-label">Package Type</label>
-        <input
-          class="form-control"
-          disabled
-          [value]="GetPackageTypeDesription(donation?.packageType)"
-        />
-      </div>
-
-      <!-- Container Type -->
-      @if(donation?.packageType ==PackageType.Vein360Container){
-      <div class="col-md-4">
-        <label for="container" class="form-label"> Container</label>
-        <input
-          class="form-control"
-          [value]="donation?.containerType?.name"
-          disabled
-        />
-      </div>
-      }
-
-      <!-- Fedex Package Type -->
-      @if(donation?.packageType ==PackageType.FedexPackage){
-      <div class="col-md-4">
-        <label for="fedexPackageTypeId" class="form-label">
-          Fedex Package</label
-        >
-        <input
-          class="form-control"
-          [value]="GetFedexPackageDescription(donation?.fedexPackagingTypeId)"
-          disabled
-        />
-      </div>
-      }
-    </div>
-
-    <div class="row mb-3 gy-3">
       <div class="col-md-4">
         <label for="trackingNumber" class="form-label">Tracking Number</label>
         <input
