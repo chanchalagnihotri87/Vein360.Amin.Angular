@@ -25,7 +25,7 @@
         @for (product of products; track product.id) {
         <tr>
           <td>{{ product.id }}</td>
-          <td>{{ product.name }}</td>
+          <td class="text-wrap">{{ product.name }}</td>
           <td>
             @switch (product.type) { @case (ProductType.ClosureFast){
             <span>Closure Fast </span>

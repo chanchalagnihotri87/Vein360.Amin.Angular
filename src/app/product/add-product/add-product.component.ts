@@ -12,6 +12,7 @@ import { ValidationMessageComponent } from '../../shared/validation-message/vali
 import ProductTypeListItem from '../shared/product-type-list-item.model';
 import { ProductTypeService } from '../shared/product-type.service';
 import Product from '../shared/product.model';
+import { TradeType } from '../shared/trade-type.enum';
 
 @Component({
   selector: 'app-add',
@@ -44,6 +45,7 @@ export class AddProductComponent implements OnInit {
         this.productForm.value.name,
         this.productForm.value.type,
         this.productForm.value.vein360ProductId,
+        this.productForm.value.trade,
         this.productForm.value.price
       );
 
@@ -81,6 +83,10 @@ export class AddProductComponent implements OnInit {
     return PackageType;
   }
 
+  get TradeType() {
+    return TradeType;
+  }
+
   //#endregion
 
   //#region  Private Methods
@@ -91,6 +97,7 @@ export class AddProductComponent implements OnInit {
       vein360ProductId: ['', [Validators.required, Validators.maxLength(11)]],
       type: ['', Validators.required],
       price: ['', Validators.required],
+      trade: ['', Validators.required],
       imageFile: [null, Validators.required],
     });
   }

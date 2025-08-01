@@ -38,13 +38,21 @@
           Preferences
         </button>
       </li>
+      <li class="nav-items">
+        <button
+          class="nav-link {{ donationRatesTabIsActive ? 'active' : '' }}"
+          (click)="showDonationRates()"
+        >
+          Donation Rates
+        </button>
+      </li>
 
       <li class="nav-items">
         <button
-          class="nav-link {{ productRatesTabIsActive ? 'active' : '' }}"
-          (click)="showProductRates()"
+          class="nav-link {{ saleRatesTabIsActive ? 'active' : '' }}"
+          (click)="showSaleRates()"
         >
-          Product Rates
+          Sale Rates
         </button>
       </li>
     </ul>
@@ -112,7 +120,33 @@
       <app-preferences [clinics]="clinics" [userId]="id"></app-preferences>
     </div>
 
-    <div class="nav-content p-3 {{ productRatesTabIsActive ? '' : 'd-none' }}">
+    <div class="nav-content p-3 {{ donationRatesTabIsActive ? '' : 'd-none' }}">
+      @if(productsLoaded && productRatesLoaded){
+      <app-product-rates
+        [products]="donationProducts"
+        [productRates]="productRates"
+        [userId]="id"
+        [trade]="TradeType.Sort"
+      ></app-product-rates>
+      } @else {
+      <p>Loading...</p>
+      }
+    </div>
+
+    <div class="nav-content p-3 {{ saleRatesTabIsActive ? '' : 'd-none' }}">
+      @if(productsLoaded && productRatesLoaded){
+      <app-product-rates
+        [products]="saleProducts"
+        [productRates]="productRates"
+        [userId]="id"
+        [trade]="TradeType.Sale"
+      ></app-product-rates>
+      } @else {
+      <p>Loading...</p>
+      }
+    </div>
+
+    <!-- <div class="nav-content p-3 {{ productRatesTabIsActive ? '' : 'd-none' }}">
       @if(productsLoaded && productRatesLoaded){
       <app-product-rates
         [products]="products"
@@ -122,6 +156,6 @@
       } @else {
       <p>Loading...</p>
       }
-    </div>
+    </div> -->
   </div>
 </div>

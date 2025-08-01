@@ -49,6 +49,7 @@ export class ProductService {
     formData.append('name', product.name);
     formData.append('type', product.type.toString());
     formData.append('vein360ProductId', product.vein360ProductId ?? '');
+    formData.append('trade', product.trade.toString());
     if (product.imageFile) {
       formData.append('imageFile', product.imageFile!);
     }

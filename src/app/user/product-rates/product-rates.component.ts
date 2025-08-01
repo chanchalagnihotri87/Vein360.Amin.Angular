@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import Product from '../../product/shared/product.model';
+import { TradeType } from '../../product/shared/trade-type.enum';
 import { ProductRateService } from './shared/product-rate.service';
 import ProductRate from './shared/product.rate.model';
 
@@ -20,6 +21,7 @@ export class ProductRatesComponent {
   userId = input.required<number>();
   products = input.required<Product[]>();
   productRates = input.required<ProductRate[]>();
+  trade = input.required<TradeType>();
 
   productRateForm: FormGroup;
 
@@ -45,31 +47,22 @@ export class ProductRatesComponent {
 
       let filteredProductForms = productRateControlArray.filter(
         (controlsArray: any) =>
-          controlsArray.sellingPrice ||
-          controlsArray.buyingPrice ||
-          controlsArray.payToSalesCredit ||
-          controlsArray.payFromSalesCredit
+          controlsArray.price || controlsArray.useSalesCredit
       );
 
       var productRates = filteredProductForms.map(
         (controlsArray: any) =>
           new ProductRate(
             controlsArray.productId,
-            controlsArray.sellingPrice == ''
-              ? undefined
-              : controlsArray.sellingPrice,
-            controlsArray.buyingPrice == ''
-              ? undefined
-              : controlsArray.buyingPrice,
-            controlsArray.payToSalesCredit,
-            controlsArray.payFromSalesCredit
+            controlsArray.price == '' ? undefined : controlsArray.price,
+            controlsArray.useSalesCredit
           )
       );
 
-      console.log('Form Submitted', this.productRateForm.value);
+      console.log('Form Submitted', productRates);
 
       this.productRateService
-        .saveProductRates(this.userId(), productRates)
+        .saveProductRates(this.userId(), productRates, this.trade())
         .subscribe(() => {
           console.log('Product rates saved successfully');
         });
@@ -107,20 +100,12 @@ export class ProductRatesComponent {
         (rate) => rate.productId === product.id
       );
 
-      console.log('Existing Rate:', existingRate);
-
       this.productRateFormControls.push(
         this.formBuilder.group({
           productId: [product.id, Validators.required],
           productName: [product.name],
-          buyingPrice: [existingRate ? existingRate.buyingPrice : ''],
-          sellingPrice: [existingRate ? existingRate.sellingPrice : ''],
-          payToSalesCredit: [
-            existingRate ? existingRate.payToSalesCredit : false,
-          ],
-          payFromSalesCredit: [
-            existingRate ? existingRate.payFromSalesCredit : false,
-          ],
+          price: [existingRate ? existingRate.price : ''],
+          useSalesCredit: [existingRate ? existingRate.useSalesCredit : false],
         })
       );
     });

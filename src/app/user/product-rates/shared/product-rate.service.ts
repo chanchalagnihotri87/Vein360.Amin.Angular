@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
+import { TradeType } from '../../../product/shared/trade-type.enum';
 import ProductRate from './product.rate.model';
 
 @Injectable({
@@ -11,8 +12,15 @@ export class ProductRateService {
 
   constructor(private httpClient: HttpClient) {}
 
-  saveProductRates(userId: number, productRates: ProductRate[]) {
-    return this.httpClient.put(`${this.baseUrl}/${userId}`, productRates);
+  saveProductRates(
+    userId: number,
+    productRates: ProductRate[],
+    trade: TradeType
+  ) {
+    return this.httpClient.put(
+      `${this.baseUrl}/${userId}/${trade}`,
+      productRates
+    );
   }
 
   getProductRates(userId: number) {

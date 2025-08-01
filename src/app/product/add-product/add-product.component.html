@@ -80,6 +80,21 @@
         ></app-validation-message>
       </div>
 
+      <!-- Trade Type -->
+      <div class="col-md-4">
+        <label for="price" class="form-label">Trade Type</label>
+        <select class="form-select" formControlName="trade">
+          <option value="">Select Trade Type</option>
+          <option [value]="TradeType.Sort">Sort</option>
+          <option [value]="TradeType.Sale">Sale</option>
+        </select>
+        <app-validation-message
+          fieldName="trade"
+          [formGroup]="productForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+
       <div class="col-md-4">
         <label for="file" class="form-label">Image</label>
         <input

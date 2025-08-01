@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { ClinicComponent } from '../../clinic/clinic.component';
 import Product from '../../product/shared/product.model';
 import { ProductService } from '../../product/shared/product.service';
+import { TradeType } from '../../product/shared/trade-type.enum';
 import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import { PreferencesComponent } from '../preferences/preferences.component';
 import { ProductRatesComponent } from '../product-rates/product-rates.component';
@@ -38,10 +39,15 @@ export class EditUserComponent implements OnInit {
   @Input({ required: true }) id: number = 0;
 
   public clinics: Clinic[] = [];
-  public products: Product[] = [];
+  public saleProducts: Product[] = [];
+  public donationProducts: Product[] = [];
   public productRates: ProductRate[] = [];
-  public currentTab: 'UserDetail' | 'Clinics' | 'Preferences' | 'ProductRates' =
-    'UserDetail';
+  public currentTab:
+    | 'UserDetail'
+    | 'Clinics'
+    | 'Preferences'
+    | 'DonationRates'
+    | 'SaleRates' = 'UserDetail';
   public productsLoaded = false;
   public productRatesLoaded = false;
 
@@ -82,8 +88,12 @@ export class EditUserComponent implements OnInit {
     this.currentTab = 'Preferences';
   }
 
-  showProductRates() {
-    this.currentTab = 'ProductRates';
+  showDonationRates() {
+    this.currentTab = 'DonationRates';
+  }
+
+  showSaleRates() {
+    this.currentTab = 'SaleRates';
   }
 
   //#region  Public Methods
@@ -121,8 +131,16 @@ export class EditUserComponent implements OnInit {
     return this.currentTab == 'Preferences';
   }
 
-  get productRatesTabIsActive() {
-    return this.currentTab == 'ProductRates';
+  get donationRatesTabIsActive() {
+    return this.currentTab == 'DonationRates';
+  }
+
+  get saleRatesTabIsActive() {
+    return this.currentTab == 'SaleRates';
+  }
+
+  get TradeType() {
+    return TradeType;
   }
 
   //#endregion
@@ -166,16 +184,15 @@ export class EditUserComponent implements OnInit {
   }
 
   private loadProducts(userId: number) {
-    let productPromise = this.productService
-      .getProducts()
-      .subscribe((products) => {
-        this.products = products;
-        this.productsLoaded = true;
-      });
+    this.productService.getProducts().subscribe((products) => {
+      this.saleProducts = products.filter((x) => x.trade == TradeType.Sale);
+      this.donationProducts = products.filter((x) => x.trade == TradeType.Sort);
+      this.productsLoaded = true;
+    });
   }
 
   private loadProductRates(userId: number) {
-    var productRatePromise = this.productRateService
+    this.productRateService
       .getProductRates(userId)
       .subscribe((productRates) => {
         this.productRates = productRates;

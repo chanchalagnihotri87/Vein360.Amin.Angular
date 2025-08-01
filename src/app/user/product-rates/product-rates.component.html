@@ -7,10 +7,8 @@
             <tr>
               <th>#Id</th>
               <th>Name</th>
-              <th>Selling Price</th>
-              <th class="text-nowrap ps-md-0">Pay to Sales Credit</th>
-              <th>Buying Price</th>
-              <th class="text-nowrap ps-md-0">Buy from Sales Credit</th>
+              <th>Price</th>
+              <th class="text-nowrap ps-md-0">Use Sales Credit</th>
             </tr>
           </thead>
           <tbody>
@@ -27,26 +25,14 @@
                 <td>{{ productControl.get("productName")?.value }}</td>
 
                 <td>
-                  <input class="form-control" formControlName="sellingPrice" />
+                  <input class="form-control" formControlName="price" />
                 </td>
                 <td align="center">
                   <div class="form-check form-switch">
                     <input
                       type="checkbox"
                       class="form-check-input"
-                      formControlName="payToSalesCredit"
-                    />
-                  </div>
-                </td>
-                <td>
-                  <input class="form-control" formControlName="buyingPrice" />
-                </td>
-                <td align="center">
-                  <div class="form-check form-switch">
-                    <input
-                      type="checkbox"
-                      class="form-check-input"
-                      formControlName="payFromSalesCredit"
+                      formControlName="useSalesCredit"
                     />
                   </div>
                 </td>
