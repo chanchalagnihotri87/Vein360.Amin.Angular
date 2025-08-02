@@ -30,8 +30,10 @@ export class AddUserComponent {
       let newUserRequest = new CreateUserRequest(
         this.userForm.value.username,
         this.userForm.value.password,
+        this.userForm.value.isBuyer,
         this.userForm.value.isDonor,
-        this.userForm.value.isAdmin
+        this.userForm.value.isAdmin,
+        this.userForm.value.isApiUser
       );
 
       this.onSubmit.emit(newUserRequest);
@@ -51,6 +53,8 @@ export class AddUserComponent {
       password: ['', Validators.required],
       isDonor: [false],
       isAdmin: [false],
+      isBuyer: [false],
+      isApiUser: [false],
     });
   }
 

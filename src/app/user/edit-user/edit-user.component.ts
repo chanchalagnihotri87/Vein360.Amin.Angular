@@ -103,8 +103,10 @@ export class EditUserComponent implements OnInit {
       var updatedUser = new User(
         this.user!.id,
         this.userForm.value.username,
+        this.userForm.value.isBuyer,
         this.userForm.value.isDonor,
-        this.userForm.value.isAdmin
+        this.userForm.value.isAdmin,
+        this.userForm.value.isApiUser
       );
 
       this.userService.updatedUser(updatedUser).subscribe(() => {});
@@ -163,8 +165,10 @@ export class EditUserComponent implements OnInit {
   private createUserForm() {
     return this.formBuilder.group({
       username: ['', Validators.required],
+      isBuyer: [false],
       isDonor: [false],
       isAdmin: [false],
+      isApiUser: [false],
     });
   }
 
@@ -178,8 +182,10 @@ export class EditUserComponent implements OnInit {
   private fillForm(user: User) {
     this.userForm?.patchValue({
       username: user.username,
+      isBuyer: user.isBuyer,
       isDonor: user.isDonor,
       isAdmin: user.isAdmin,
+      isApiUser: user.isApiUser,
     });
   }
 

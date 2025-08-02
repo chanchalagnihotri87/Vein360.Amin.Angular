@@ -11,32 +11,48 @@
   </div>
   <div class="modal-body">
     <div class="row mb-3">
-      <div class="col-md-4">
-        <label>Username</label>
-        <input type="text" class="form-control" formControlName="username" />
-        <app-validation-message
-          fieldName="username"
-          [formGroup]="userForm"
-          [ngFormTemplate]="form"
-        ></app-validation-message>
-      </div>
+      <div class="col-md-7">
+        <div class="row">
+          <div class="col-md-6">
+            <label>Username</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="username"
+            />
+            <app-validation-message
+              fieldName="username"
+              [formGroup]="userForm"
+              [ngFormTemplate]="form"
+            ></app-validation-message>
+          </div>
 
-      <div class="col-md-4">
-        <label>Password</label>
-        <input
-          type="password"
-          class="form-control"
-          formControlName="password"
-        />
-        <app-validation-message
-          fieldName="password"
-          [formGroup]="userForm"
-          [ngFormTemplate]="form"
-        ></app-validation-message>
+          <div class="col-md-6">
+            <label>Password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+            />
+            <app-validation-message
+              fieldName="password"
+              [formGroup]="userForm"
+              [ngFormTemplate]="form"
+            ></app-validation-message>
+          </div>
+        </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-5">
         <label class="w-100">Role</label>
         <div class="w-100 mt-2">
+          <div class="form-check form-switch form-check-inline">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="isBuyer"
+            />
+            <label class="form-check-label">Buyer</label>
+          </div>
           <div class="form-check form-switch form-check-inline">
             <input
               type="checkbox"
@@ -52,6 +68,15 @@
               formControlName="isAdmin"
             />
             <label class="form-check-label">Admin</label>
+          </div>
+
+          <div class="form-check form-switch form-check-inline">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="isApiUser"
+            />
+            <label class="form-check-label">Api User</label>
           </div>
         </div>
       </div>
