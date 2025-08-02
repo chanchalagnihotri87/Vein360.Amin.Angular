@@ -5,6 +5,7 @@ import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confi
 import { AddProductComponent } from './add-product/add-product.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { ProductType } from './shared/product-type.enum';
+import { ProductTypeService } from './shared/product-type.service';
 import Product from './shared/product.model';
 import { ProductService } from './shared/product.service';
 @Component({
@@ -20,9 +21,10 @@ export class ProductComponent {
   private confirmationModalRef?: BsModalRef;
 
   constructor(
-    private productService: ProductService,
-    private modalService: BsModalService,
-    private breadcrumbService: BreadcrumbService
+    private readonly productService: ProductService,
+    private readonly modalService: BsModalService,
+    private readonly breadcrumbService: BreadcrumbService,
+    private readonly productTypeService: ProductTypeService
   ) {}
 
   ngOnInit(): void {
@@ -98,6 +100,10 @@ export class ProductComponent {
     this.confirmationModalRef.content.onNo.subscribe(() => {
       this.closeConfirmationModal();
     });
+  }
+
+  getProductTypeString(type: ProductType) {
+    return this.productTypeService.getProductTypeString(type);
   }
 
   //#endregion

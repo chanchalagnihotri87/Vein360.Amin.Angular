@@ -27,13 +27,7 @@
           <td>{{ product.id }}</td>
           <td class="text-wrap">{{ product.name }}</td>
           <td>
-            @switch (product.type) { @case (ProductType.ClosureFast){
-            <span>Closure Fast </span>
-            } @case (ProductType.IVUS){
-            <span>IVUS</span>
-            } @case (ProductType.Urology){
-            <span>Urology</span>
-            } }
+            <span>{{ getProductTypeString(product.type) }} </span>
           </td>
           <td>{{ product.price }}</td>
           <td>

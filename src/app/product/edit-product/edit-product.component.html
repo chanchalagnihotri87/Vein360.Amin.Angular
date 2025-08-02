@@ -79,7 +79,20 @@
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
-
+      <!-- Trade Type -->
+      <div class="col-md-4">
+        <label for="price" class="form-label">Trade Type</label>
+        <select class="form-select" formControlName="trade">
+          <option value="">Select Trade Type</option>
+          <option [value]="TradeType.Sort">Sort</option>
+          <option [value]="TradeType.Sale">Sale</option>
+        </select>
+        <app-validation-message
+          fieldName="trade"
+          [formGroup]="productForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
       <div class="col-md-4">
         <label for="length" class="form-label">Image</label>
         <input
@@ -91,10 +104,10 @@
         />
       </div>
 
-      <div class="offset-md-4 col-md-8">
+      <div class="offset-md-8 col-md-4">
         <button
           type="button"
-          class="btn btn-link vein-btn-link"
+          class="btn btn-link vein-btn-link text-start"
           target="_blank"
           (click)="downloadLabel(product?.image)"
         >

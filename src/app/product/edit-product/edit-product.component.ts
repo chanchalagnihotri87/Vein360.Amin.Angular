@@ -11,6 +11,7 @@ import ProductTypeListItem from '../shared/product-type-list-item.model';
 import { ProductTypeService } from '../shared/product-type.service';
 import Product from '../shared/product.model';
 import { ProductService } from '../shared/product.service';
+import { TradeType } from '../shared/trade-type.enum';
 
 @Component({
   selector: 'app-edit-product',
@@ -41,6 +42,12 @@ export class EditProductComponent implements OnInit {
     this.fillProductForm(this.product!);
   }
 
+  //#region Get Properties
+  get TradeType() {
+    return TradeType;
+  }
+  //#endregion
+
   //#region Public Methods
   submitForm() {
     if (this.productForm.valid) {
@@ -48,6 +55,7 @@ export class EditProductComponent implements OnInit {
         this.productForm.value.name,
         this.productForm.value.type,
         this.productForm.value.vein360ProductId,
+        this.productForm.value.trade,
         this.productForm.value.price
       );
 
@@ -91,9 +99,10 @@ export class EditProductComponent implements OnInit {
   private createProductForm() {
     return this.formBuilder.group({
       name: ['', Validators.required],
-      vein360ProductId: ['', [Validators.required, Validators.maxLength(11)]],
+      vein360ProductId: ['', [Validators.required, Validators.maxLength(20)]],
       type: ['', Validators.required],
       price: ['', Validators.required],
+      trade: ['', Validators.required],
       imageFile: [null],
     });
   }
@@ -105,6 +114,7 @@ export class EditProductComponent implements OnInit {
       ?.setValue(product.vein360ProductId);
     this.productForm.get('type')?.setValue(product.type);
     this.productForm.get('price')?.setValue(product.price);
+    this.productForm.get('trade')?.setValue(product.trade);
   }
 
   private loadProductTypes() {
