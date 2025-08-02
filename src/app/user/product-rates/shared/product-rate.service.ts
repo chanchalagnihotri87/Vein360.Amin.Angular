@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { TradeType } from '../../../product/shared/trade-type.enum';
 import ProductRate from './product.rate.model';
 
