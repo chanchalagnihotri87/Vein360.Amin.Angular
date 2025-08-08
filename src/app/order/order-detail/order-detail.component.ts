@@ -1,12 +1,13 @@
 import { Component, Input, output } from '@angular/core';
 import { ProductType } from '../../product/shared/product-type.enum';
+import { AddressComponent } from '../../shared/address/address.component';
 import { ListItem } from '../../shared/models/list-item';
 import { Order } from '../shared/order';
 import { OrderStatus } from '../shared/order-status';
 
 @Component({
   selector: 'app-order-detail',
-  imports: [],
+  imports: [AddressComponent],
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.scss',
 })

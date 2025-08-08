@@ -11,6 +11,7 @@ export class Order {
     public paid: boolean,
     public status: OrderStatus,
     public createdDate: Date,
-    public userId: number
+    public userId: number,
+    public quantity: number
   ) {}
 }

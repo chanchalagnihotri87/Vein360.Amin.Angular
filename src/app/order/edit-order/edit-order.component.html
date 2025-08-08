@@ -25,15 +25,12 @@
         ></app-validation-message>
       </div>
       <div class="col-md-6">
-        <label>Location</label>
-        <select class="form-select" formControlName="clinicId">
-          @for (clinic of clinics; track clinic.id) {
-          <option [value]="clinic.id">{{ clinic.clinicName }}</option>
-          }
-        </select>
+        <label>Quantity</label>
+        <input type="number" class="form-control" formControlName="quantity" />
+
         <app-validation-message
           [formGroup]="orderForm"
-          fieldName="clinicId"
+          fieldName="quantity"
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
@@ -62,6 +59,24 @@
         <app-validation-message
           [formGroup]="orderForm"
           fieldName="status"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>Shipping Address</label>
+        <select class="form-select" formControlName="clinicId">
+          @for (clinic of clinics; track clinic.id) {
+          <option [value]="clinic.id">
+            <app-address [clinic]="clinic"></app-address>
+          </option>
+          }
+        </select>
+        <app-validation-message
+          [formGroup]="orderForm"
+          fieldName="clinicId"
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>

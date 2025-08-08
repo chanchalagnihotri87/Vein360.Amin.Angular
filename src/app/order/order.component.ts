@@ -43,7 +43,7 @@ export class OrderComponent implements OnInit {
   }
 
   private loadProducts() {
-    this.productService.getProductsAsListItems().subscribe((products) => {
+    this.productService.getSaleProductsAsListItems().subscribe((products) => {
       this.products = products;
     });
   }
@@ -106,7 +106,6 @@ export class OrderComponent implements OnInit {
         this.orderService
           .updateOrder(updatedOrderRequest)
           .subscribe((updatedOrder: Order) => {
-            debugger;
             let orderIndex = this.orders.findIndex((x) => x.id == order.id);
             this.orders[orderIndex] = updatedOrder;
             this.closeEditOrderModal();

@@ -17,11 +17,11 @@
     </div>
 
     <div class="col-md-6">
-      <label>Location</label>
+      <label>Quantity</label>
       <input
         type="text"
         class="form-control"
-        [value]="order?.clinic?.clinicName"
+        [value]="order?.quantity"
         disabled
       />
     </div>
@@ -43,14 +43,11 @@
   </div>
   <div class="row mb-2">
     <div class="col-md-6">
-      <label>Address</label>
+      <label>Shipping Address</label>
       <p>
-        {{
-          order?.clinic?.addressLine2
-            ? order?.clinic?.addressLine1 + " " + order?.clinic?.addressLine2
-            : order?.clinic?.addressLine1
-        }}, {{ order?.clinic?.city }}, {{ order?.clinic?.state }}
-        {{ order?.clinic?.postalCode }} {{ order?.clinic?.country }}
+        @if(order?.clinic){
+        <app-address [clinic]="order!.clinic!"></app-address>
+        }
       </p>
     </div>
   </div>

@@ -12,8 +12,8 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getProductsAsListItems(): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(`${this.baseUrl}/listitems`);
+  getSaleProductsAsListItems(): Observable<Product[]> {
+    return this.httpClient.get<Product[]>(`${this.baseUrl}/listitems/sale`);
   }
 
   getDonationProductsAsListItems(): Observable<Product[]> {

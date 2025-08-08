@@ -20,7 +20,6 @@ export class OrderService {
   }
 
   public updateOrder(updatedOrder: UpdateOrderRequest) {
-    debugger;
     return this.httpClient.put<Order>(`${this.baseUrl}`, updatedOrder);
   }
 

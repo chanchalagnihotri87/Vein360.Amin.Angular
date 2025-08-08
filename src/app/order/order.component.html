@@ -11,6 +11,7 @@
           <tr>
             <th>#Id</th>
             <th>Product</th>
+            <th>Qty.</th>
             <th>Status</th>
             <th>Date</th>
             <th>Action</th>
@@ -20,7 +21,8 @@
           @for (order of orders; track order.id) {
           <tr>
             <td>#{{ order.id }}</td>
-            <td>{{ order.product.name }}</td>
+            <td class="text-wrap">{{ order.product.name }}</td>
+            <td>{{ order.quantity }}</td>
             <td>
               @switch(order.status) { @case (OrderStatus.Ordered) {
               <span class="badge badge-primary">Ordered</span>
