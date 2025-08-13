@@ -62,8 +62,28 @@
         ></app-validation-message>
       </div>
     </div>
-    <!-- Dmimentions Length, Width, Height -->
+
     <div class="row mb-3">
+      <!-- Trade Type -->
+      <div class="col-md-4">
+        <label for="price" class="form-label">Trade Type</label>
+        <select
+          class="form-select"
+          formControlName="trade"
+          (change)="updatePriceValidations()"
+        >
+          <option value="">Select Trade Type</option>
+          <option [value]="TradeType.Sort">Sort</option>
+          <option [value]="TradeType.Sale">Sale</option>
+        </select>
+        <app-validation-message
+          fieldName="trade"
+          [formGroup]="productForm"
+          [ngFormTemplate]="form"
+        ></app-validation-message>
+      </div>
+
+      <!-- Price -->
       <div class="col-md-4">
         <label for="price" class="form-label">Price</label>
         <input
@@ -79,20 +99,8 @@
           [ngFormTemplate]="form"
         ></app-validation-message>
       </div>
-      <!-- Trade Type -->
-      <div class="col-md-4">
-        <label for="price" class="form-label">Trade Type</label>
-        <select class="form-select" formControlName="trade">
-          <option value="">Select Trade Type</option>
-          <option [value]="TradeType.Sort">Sort</option>
-          <option [value]="TradeType.Sale">Sale</option>
-        </select>
-        <app-validation-message
-          fieldName="trade"
-          [formGroup]="productForm"
-          [ngFormTemplate]="form"
-        ></app-validation-message>
-      </div>
+
+      <!-- Image -->
       <div class="col-md-4">
         <label for="length" class="form-label">Image</label>
         <input

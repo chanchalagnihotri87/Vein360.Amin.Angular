@@ -35,6 +35,7 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.productTypes = this.productTypeService.getProductTypes();
+    this.updatePriceValidations();
   }
 
   //#region  Public Methods
@@ -88,6 +89,25 @@ export class AddProductComponent implements OnInit {
   }
 
   //#endregion
+
+  get priceFormControl() {
+    return this.productForm.get('price') as FormControl;
+  }
+
+  get isSaleProduct() {
+    return this.productForm.value.trade == TradeType.Sale;
+  }
+
+  protected updatePriceValidations() {
+    if (this.isSaleProduct) {
+      this.priceFormControl.setValidators([Validators.required]);
+      this.priceFormControl.enable();
+    } else {
+      this.priceFormControl.clearValidators();
+      this.priceFormControl.disable();
+    }
+    this.priceFormControl.updateValueAndValidity();
+  }
 
   //#region  Private Methods
 

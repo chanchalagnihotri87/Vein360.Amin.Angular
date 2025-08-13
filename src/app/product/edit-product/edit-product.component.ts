@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, output } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -101,10 +102,29 @@ export class EditProductComponent implements OnInit {
       name: ['', Validators.required],
       vein360ProductId: ['', [Validators.required, Validators.maxLength(20)]],
       type: ['', Validators.required],
-      price: ['', Validators.required],
+      price: [''],
       trade: ['', Validators.required],
       imageFile: [null],
     });
+  }
+
+  get priceFormControl() {
+    return this.productForm.get('price') as FormControl;
+  }
+
+  get isSaleProduct() {
+    return this.productForm.value.trade == TradeType.Sale;
+  }
+
+  protected updatePriceValidations() {
+    if (this.isSaleProduct) {
+      this.priceFormControl.setValidators([Validators.required]);
+      this.priceFormControl.enable();
+    } else {
+      this.priceFormControl.clearValidators();
+      this.priceFormControl.disable();
+    }
+    this.priceFormControl.updateValueAndValidity();
   }
 
   private fillProductForm(product: Product) {
@@ -115,6 +135,8 @@ export class EditProductComponent implements OnInit {
     this.productForm.get('type')?.setValue(product.type);
     this.productForm.get('price')?.setValue(product.price);
     this.productForm.get('trade')?.setValue(product.trade);
+
+    this.updatePriceValidations();
   }
 
   private loadProductTypes() {

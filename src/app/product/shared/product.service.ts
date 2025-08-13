@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import Product from './product.model';
+import { TradeType } from './trade-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +49,6 @@ export class ProductService {
   }
 
   private createFormData(product: Product) {
-    debugger;
     const formData = new FormData();
     formData.append('name', product.name);
     formData.append('type', product.type.toString());
@@ -57,8 +57,11 @@ export class ProductService {
     if (product.imageFile) {
       formData.append('imageFile', product.imageFile!);
     }
-
-    formData.append('price', product.price!.toString());
+    if (product.trade == TradeType.Sale) {
+      formData.append('price', product.price!.toString());
+    } else {
+      formData.append('price', '');
+    }
 
     return formData;
   }
