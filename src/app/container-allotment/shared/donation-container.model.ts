@@ -14,6 +14,7 @@ export default class DonationContainer {
     public donor?: Vein360User,
     public requestedUnits: number = 0,
     public approvedUnits?: number,
+    public replenishmentOrderId?: number,
     public clinic?: Clinic
   ) {}
 }
