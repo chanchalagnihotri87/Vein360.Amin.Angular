@@ -26,7 +26,14 @@ export class ApproveContainerRequestComponent implements OnInit {
   public onSubmit = output<ApproveContainerRequest>();
   public onClose = output();
 
-  public containerForm: FormGroup;
+  protected containerForm: FormGroup;
+
+  protected get ContainerType() {
+    return ContainerType;
+  }
+  protected get Vein360ContainerStatus() {
+    return Vein360ContainerStatus;
+  }
 
   constructor(private formBuilder: FormBuilder) {
     this.containerForm = this.createContainerForm();
@@ -55,21 +62,9 @@ export class ApproveContainerRequestComponent implements OnInit {
 
   //#endregion
 
-  //#region Get Properties
-
-  get ContainerType() {
-    return ContainerType;
-  }
-
-  get Vein360ContainerStatus() {
-    return Vein360ContainerStatus;
-  }
-
-  //#endregion
-
   //#region Private Methods
 
-  createContainerForm(): FormGroup {
+  private createContainerForm(): FormGroup {
     return this.formBuilder.group({
       dontainerContainerId: [this.donationContainer?.id],
       approvedUnits: ['', [Validators.required]],

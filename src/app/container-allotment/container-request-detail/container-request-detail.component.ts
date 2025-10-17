@@ -14,7 +14,7 @@ export class ContainerRequestDetailComponent implements OnInit {
   @Input({ required: true }) donationContainer?: DonationContainer;
   @Input({ required: true }) containerTypes: ContainerType[] = [];
 
-  onClose = output();
+  public onClose = output();
 
   constructor() {}
 

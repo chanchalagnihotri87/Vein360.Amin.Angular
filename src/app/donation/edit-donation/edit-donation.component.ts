@@ -31,11 +31,10 @@ export class EditDonationComponent implements OnInit {
   public onSubmit = output<UpdatedDonation>();
   public onClose = output();
 
-  public length?: number;
-  public width?: number;
-  public height?: number;
-
-  public donationForm: FormGroup;
+  protected length?: number;
+  protected width?: number;
+  protected height?: number;
+  protected donationForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.donationForm = this.createDonationForm();

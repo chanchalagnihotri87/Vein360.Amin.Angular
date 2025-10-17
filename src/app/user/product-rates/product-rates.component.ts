@@ -18,12 +18,16 @@ import ProductRate from './shared/product.rate.model';
   templateUrl: './product-rates.component.html',
 })
 export class ProductRatesComponent {
-  userId = input.required<number>();
-  products = input.required<Product[]>();
-  productRates = input.required<ProductRate[]>();
-  trade = input.required<TradeType>();
+  public userId = input.required<number>();
+  public products = input.required<Product[]>();
+  public productRates = input.required<ProductRate[]>();
+  public trade = input.required<TradeType>();
 
-  productRateForm: FormGroup;
+  protected productRateForm: FormGroup;
+
+  protected get productRateFormControls() {
+    return this.productRateForm.get('productRates') as FormArray;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,10 +42,8 @@ export class ProductRatesComponent {
     });
   }
 
-  //#endregion
-
   //#region  Public Methods
-  sumbitForm() {
+  protected sumbitForm() {
     if (this.productRateForm.valid) {
       let productRateControlArray = this.productRateForm.value.productRates;
 
@@ -71,13 +73,6 @@ export class ProductRatesComponent {
     } else {
       console.log('Form is invalid');
     }
-  }
-
-  //#endregion
-
-  //#region  Getters
-  get productRateFormControls() {
-    return this.productRateForm.get('productRates') as FormArray;
   }
 
   //#endregion

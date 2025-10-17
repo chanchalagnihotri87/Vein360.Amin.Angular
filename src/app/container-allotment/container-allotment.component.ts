@@ -19,8 +19,12 @@ import { DonationContainerService } from './shared/donation-container.service';
   templateUrl: './container-allotment.component.html',
 })
 export class ContainerAllotmentComponent {
-  public containerTypes: ContainerType[] = [];
-  public donationContainers: DonationContainer[] = [];
+  protected containerTypes: ContainerType[] = [];
+  protected donationContainers: DonationContainer[] = [];
+
+  protected get ContainerStatus() {
+    return DonationContainerStatus;
+  }
 
   private containerModalRef?: BsModalRef;
   private confirmationModalRef?: BsModalRef;
@@ -121,13 +125,6 @@ export class ContainerAllotmentComponent {
 
   //#endregion
 
-  //#region Get Properties
-  public get ContainerStatus() {
-    return DonationContainerStatus;
-  }
-
-  //#endregion
-
   //#region  Private Methods
 
   private loadDonationContainers() {
@@ -211,7 +208,7 @@ export class ContainerAllotmentComponent {
     this.confirmationModalRef?.hide();
   }
 
-  setBreadcrumb() {
+  private setBreadcrumb() {
     this.breadcrumbService.breadcrumbs.set([
       { label: 'Containers Allotment', path: '' },
     ]);

@@ -14,9 +14,9 @@ import { StatesService } from './shared/state.service';
   templateUrl: './clinic.component.html',
 })
 export class ClinicComponent {
-  userId = input.required<number>();
-  clinics = input.required<Clinic[]>();
-  onLoadClinics = output();
+  public userId = input.required<number>();
+  public clinics = input.required<Clinic[]>();
+  public onLoadClinics = output();
 
   private clinicModalRef?: BsModalRef;
   private confirmationModalRef?: BsModalRef;
@@ -28,7 +28,9 @@ export class ClinicComponent {
     private countryService: CountryService
   ) {}
 
-  showAddClinicModal() {
+  //#region Public Methods
+
+  protected showAddClinicModal() {
     const configuartions: ModalOptions = {
       initialState: {},
       class: 'modal-xl',
@@ -50,13 +52,13 @@ export class ClinicComponent {
     });
   }
 
-  showEditClinicModal(clinicId: number) {
+  protected showEditClinicModal(clinicId: number) {
     this.clinicService.getClinic(clinicId).subscribe((clinic) => {
       this.openEditClinicModal(clinic);
     });
   }
 
-  openEditClinicModal(clinic: Clinic) {
+  protected openEditClinicModal(clinic: Clinic) {
     console.log(clinic);
     const configuartions: ModalOptions = {
       initialState: {
@@ -81,7 +83,7 @@ export class ClinicComponent {
     });
   }
 
-  getAddress(clinic: Clinic) {
+  protected getAddress(clinic: Clinic) {
     return `${clinic.addressLine1}, ${clinic.city}, ${
       this.stateService.getState(clinic.state)?.description
     } 
@@ -89,27 +91,7 @@ export class ClinicComponent {
     ${clinic.postalCode}`;
   }
 
-  //#region Private Methods
-  closeModal() {
-    this.clinicModalRef?.hide();
-  }
-
-  handleAddClinic(clinic: Clinic) {
-    clinic.userId = this.userId();
-    this.clinicService.addClinic(clinic).subscribe(() => {
-      this.onLoadClinics.emit();
-    });
-  }
-
-  handleUpdateClinic(clinic: Clinic) {
-    this.clinicService.updateClinic(clinic).subscribe(() => {
-      this.onLoadClinics.emit();
-    });
-  }
-  //#endregion
-
-  //#region Delete Donation
-  handleDeleteDonation(clinicId: number) {
+  protected handleDeleteDonation(clinicId: number) {
     const initialState: ModalOptions = {
       initialState: {
         message: 'Are you sure you want to delete this clinic?',
@@ -134,9 +116,29 @@ export class ClinicComponent {
     });
   }
 
+  //#endregion
+
+  //#region Private Methods
+
+  private handleAddClinic(clinic: Clinic) {
+    clinic.userId = this.userId();
+    this.clinicService.addClinic(clinic).subscribe(() => {
+      this.onLoadClinics.emit();
+    });
+  }
+
+  private handleUpdateClinic(clinic: Clinic) {
+    this.clinicService.updateClinic(clinic).subscribe(() => {
+      this.onLoadClinics.emit();
+    });
+  }
+
   private hideConfirmationModal() {
     this.confirmationModalRef?.hide();
   }
 
+  private closeModal() {
+    this.clinicModalRef?.hide();
+  }
   //#endregion
 }

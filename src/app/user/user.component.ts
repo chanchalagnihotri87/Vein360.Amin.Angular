@@ -33,6 +33,8 @@ export class UserComponent implements OnInit {
     this.setBreadcrumb();
   }
 
+  //#region Public Methods
+
   showAddUserModal() {
     const configuartions: ModalOptions = {
       initialState: {},
@@ -99,6 +101,8 @@ export class UserComponent implements OnInit {
       this.closeConfirmationModal();
     });
   }
+
+  //#endregion
 
   //#region Private Methods
   private handleAddUser(userRequest: CreateUserRequest) {

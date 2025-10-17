@@ -36,17 +36,7 @@ export class OrderComponent implements OnInit {
     this.loadProducts();
   }
 
-  private loadClinics() {
-    this.orderService.getOrders().subscribe((orders) => {
-      this.orders = orders;
-    });
-  }
-
-  private loadProducts() {
-    this.productService.getSaleProductsAsListItems().subscribe((products) => {
-      this.products = products;
-    });
-  }
+  //#region Public Methods
 
   protected getOrderStatusDescription(orderStatus: OrderStatus) {
     return OrderStatus[orderStatus];
@@ -56,13 +46,48 @@ export class OrderComponent implements OnInit {
     return OrderStatus;
   }
 
-  //#region  Order Detail
   protected orderDetail(orderId: number) {
     this.orderService.getOrder(orderId).subscribe((order) => {
       this.showOrderDetailModal(order);
     });
   }
 
+  protected editOrder(orderId: number) {
+    this.orderService.getOrder(orderId).subscribe((order) => {
+      this.showEditOrderModal(order);
+    });
+  }
+
+  protected deleteOrder(orderId: number) {
+    let initialState: ModalOptions = {
+      initialState: {
+        message: 'Are you sure you want to delete this order?',
+      },
+      class: 'modal-md',
+    };
+
+    this.confirmationModal = this.modalService.show(
+      ConfirmationMessageComponent,
+      initialState
+    );
+
+    this.confirmationModal.content.onYes.subscribe(() => {
+      this.orderService.deleteOrder(orderId).subscribe(() => {
+        let orderIndex = this.orders.findIndex((x) => x.id == orderId);
+        this.orders.splice(orderIndex, 1);
+
+        this.closeConfirmationModal();
+      });
+    });
+
+    this.confirmationModal.content.onNo.subscribe(() => {
+      this.closeConfirmationModal();
+    });
+  }
+
+  //#endregion
+
+  //#region Private Methods
   private showOrderDetailModal(order: Order) {
     let configurations: ModalOptions = {
       initialState: {
@@ -77,15 +102,6 @@ export class OrderComponent implements OnInit {
 
     this.orderDetailModal.content.onClose.subscribe(() => {
       this.orderDetailModal?.hide();
-    });
-  }
-
-  //#endregion
-
-  //#region Edit Order
-  protected editOrder(orderId: number) {
-    this.orderService.getOrder(orderId).subscribe((order) => {
-      this.showEditOrderModal(order);
     });
   }
 
@@ -118,42 +134,25 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  private closeEditOrderModal() {
-    this.editOrderModal?.hide();
+  private loadClinics() {
+    this.orderService.getOrders().subscribe((orders) => {
+      this.orders = orders;
+    });
   }
 
-  //#endregion
-
-  //#region Delete
-  protected deleteOrder(orderId: number) {
-    let initialState: ModalOptions = {
-      initialState: {
-        message: 'Are you sure you want to delete this order?',
-      },
-      class: 'modal-md',
-    };
-
-    this.confirmationModal = this.modalService.show(
-      ConfirmationMessageComponent,
-      initialState
-    );
-
-    this.confirmationModal.content.onYes.subscribe(() => {
-      this.orderService.deleteOrder(orderId).subscribe(() => {
-        let orderIndex = this.orders.findIndex((x) => x.id == orderId);
-        this.orders.splice(orderIndex, 1);
-
-        this.closeConfirmationModal();
-      });
-    });
-
-    this.confirmationModal.content.onNo.submitOrder(() => {
-      this.closeConfirmationModal();
+  private loadProducts() {
+    this.productService.getSaleProductsAsListItems().subscribe((products) => {
+      this.products = products;
     });
   }
 
   private closeConfirmationModal() {
     this.confirmationModal?.hide();
   }
+
+  private closeEditOrderModal() {
+    this.editOrderModal?.hide();
+  }
+
   //#endregion
 }

@@ -12,7 +12,6 @@ import { ValidationMessageComponent } from '../../shared/validation-message/vali
 import { ClinicService } from '../../user/shared/clinic.service';
 import { Order } from '../shared/order';
 import { OrderStatus } from '../shared/order-status';
-import { OrderService } from '../shared/order.service';
 import UpdateOrderRequest from '../shared/update-order-request';
 
 @Component({
@@ -29,51 +28,31 @@ export class EditOrderComponent {
   public onSubmit = output<UpdateOrderRequest>();
 
   protected orderForm: FormGroup;
-
   protected clinics: Clinic[] = [];
+
+  protected get OrderStatus() {
+    return OrderStatus;
+  }
 
   constructor(
     private readonly clinicService: ClinicService,
-    private readonly formBuilder: FormBuilder,
-    private readonly orderService: OrderService
+    private readonly formBuilder: FormBuilder
   ) {
     this.orderForm = this.createOrderForm();
   }
 
-  private createOrderForm() {
-    return this.formBuilder.group({
-      productId: ['', [Validators.required]],
-      clinicId: ['', [Validators.required]],
-      quantity: ['', [Validators.required]],
-      price: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-    });
-  }
-
   ngOnInit(): void {
-    console.log('Edit Order Componnent');
-    console.log('Order');
-    console.log(this.order);
-
     this.clinicService.getClinics(this.order!.userId).subscribe((clinics) => {
       this.clinics = clinics;
-      this.orderForm.patchValue({ clinicId: this.order!.clinic.id });
+      this.fillClinicId(this.order!.clinic.id);
     });
 
-    this.orderForm.setValue({
-      productId: this.order!.product.id.toString(),
-      clinicId: '',
-      quantity: this.order!.quantity,
-      price: this.order!.price,
-      status: this.order!.status,
-    });
+    this.fillForm(this.order);
   }
 
-  protected closeModal() {
-    this.onClose.emit();
-  }
+  //#region Public Methods
 
-  submitOrder() {
+  protected submitOrder() {
     if (this.orderForm.valid) {
       this.onSubmit.emit(
         new UpdateOrderRequest(
@@ -90,11 +69,38 @@ export class EditOrderComponent {
     }
   }
 
-  get OrderStatus() {
-    return OrderStatus;
-  }
-
-  getOrderStatusDescription(orderStatus: OrderStatus) {
+  protected getOrderStatusDescription(orderStatus: OrderStatus) {
     return OrderStatus[orderStatus];
   }
+
+  protected closeModal() {
+    this.onClose.emit();
+  }
+  //#endregion
+
+  //#region Private Methods
+  private fillForm(order?: Order) {
+    this.orderForm.setValue({
+      productId: order!.product.id.toString(),
+      clinicId: '',
+      quantity: order!.quantity,
+      price: order!.price,
+      status: order!.status,
+    });
+  }
+
+  private fillClinicId(clinicId?: number) {
+    this.orderForm.patchValue({ clinicId: clinicId });
+  }
+
+  private createOrderForm() {
+    return this.formBuilder.group({
+      productId: ['', [Validators.required]],
+      clinicId: ['', [Validators.required]],
+      quantity: ['', [Validators.required]],
+      price: ['', [Validators.required]],
+      status: ['', [Validators.required]],
+    });
+  }
+  //#endregion
 }

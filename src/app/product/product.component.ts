@@ -15,7 +15,11 @@ import { ProductService } from './shared/product.service';
   styleUrl: './product.component.scss',
 })
 export class ProductComponent {
-  products: Product[] = [];
+  protected products: Product[] = [];
+
+  get ProductType() {
+    return ProductType;
+  }
 
   private productModalRef?: BsModalRef;
   private confirmationModalRef?: BsModalRef;
@@ -104,14 +108,6 @@ export class ProductComponent {
 
   getProductTypeString(type: ProductType) {
     return this.productTypeService.getProductTypeString(type);
-  }
-
-  //#endregion
-
-  //#region Get Properties
-
-  get ProductType() {
-    return ProductType;
   }
 
   //#endregion

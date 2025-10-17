@@ -8,16 +8,16 @@ import { ClinicModalComponent } from '../shared/clinic-modal/clinic-modal.compon
   templateUrl: './add-clinic.component.html',
 })
 export class AddClinicComponent {
-  onSubmit = output<Clinic>();
-  onClose = output();
+  public onSubmit = output<Clinic>();
+  public onClose = output();
 
   constructor() {}
 
-  closeModal() {
-    this.onClose.emit();
-  }
-
   submitForm(clinic: Clinic) {
     this.onSubmit.emit(clinic);
+  }
+
+  closeModal() {
+    this.onClose.emit();
   }
 }

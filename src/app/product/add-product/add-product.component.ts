@@ -23,8 +23,21 @@ export class AddProductComponent implements OnInit {
   public onSubmit = output<Product>();
   public onClose = output();
 
-  public productForm: FormGroup;
-  public productTypes: ProductTypeListItem[] = [];
+  protected productForm: FormGroup;
+  protected productTypes: ProductTypeListItem[] = [];
+
+  protected get ContainerType() {
+    return PackageType;
+  }
+  protected get TradeType() {
+    return TradeType;
+  }
+  protected get priceFormControl() {
+    return this.productForm.get('price') as FormControl;
+  }
+  protected get isSaleProduct() {
+    return this.productForm.value.trade == TradeType.Sale;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,7 +53,7 @@ export class AddProductComponent implements OnInit {
 
   //#region  Public Methods
 
-  public submitForm() {
+  protected submitForm() {
     if (this.productForm.valid) {
       let newProduct = new Product(
         this.productForm.value.name,
@@ -57,45 +70,23 @@ export class AddProductComponent implements OnInit {
     }
   }
 
-  public containerTypeChanged() {
+  protected containerTypeChanged() {
     (this.productForm.get('container') as FormControl)?.setValue(''); // Set
   }
 
-  public closeModal() {
+  protected closeModal() {
     if (this.onClose) {
       this.onClose.emit();
     }
   }
 
-  public onFileSelected(event: Event) {
+  protected onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       this.productForm.patchValue({
         imageFile: file,
       });
     }
-  }
-
-  //#endregion
-
-  //#region Get Properties
-
-  get ContainerType() {
-    return PackageType;
-  }
-
-  get TradeType() {
-    return TradeType;
-  }
-
-  //#endregion
-
-  get priceFormControl() {
-    return this.productForm.get('price') as FormControl;
-  }
-
-  get isSaleProduct() {
-    return this.productForm.value.trade == TradeType.Sale;
   }
 
   protected updatePriceValidations() {
@@ -108,6 +99,8 @@ export class AddProductComponent implements OnInit {
     }
     this.priceFormControl.updateValueAndValidity();
   }
+
+  //#endregion
 
   //#region  Private Methods
 

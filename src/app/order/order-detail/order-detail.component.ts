@@ -15,7 +15,9 @@ export class OrderDetailComponent {
   @Input({ required: true }) order?: Order;
   @Input({ required: true }) clinics: ListItem[] = [];
 
-  onClose = output();
+  public onClose = output();
+
+  //#region Public Methods
 
   protected getProductTypeDescription(productType?: ProductType) {
     console.log('Product Type:');
@@ -31,10 +33,12 @@ export class OrderDetailComponent {
     this.onClose.emit();
   }
 
-  getOrderStatusDescription(orderStatus?: OrderStatus) {
+  protected getOrderStatusDescription(orderStatus?: OrderStatus) {
     if (!orderStatus) {
       return '';
     }
     return OrderStatus[orderStatus];
   }
+
+  //#endregion
 }

@@ -14,12 +14,12 @@ export class EditClinicComponent {
 
   constructor() {}
 
-  closeModal() {
-    this.onClose.emit();
-  }
-
   submitForm(clinic: Clinic) {
     clinic.id = this.clinic.id;
     this.onSubmit.emit(clinic);
+  }
+
+  closeModal() {
+    this.onClose.emit();
   }
 }

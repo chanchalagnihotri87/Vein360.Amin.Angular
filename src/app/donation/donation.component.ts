@@ -36,6 +36,13 @@ export class DonationComponent {
   private products: Product[] = [];
   private donationContainers: DonationContainer[] = [];
 
+  get DonationStatus() {
+    return DonationStatus;
+  }
+  get PackageType() {
+    return PackageType;
+  }
+
   constructor(
     private donationService: DonationService,
     private breadcrumbService: BreadcrumbService,
@@ -49,14 +56,54 @@ export class DonationComponent {
     this.setBreadcrumb();
   }
 
-  get DonationStatus() {
-    return DonationStatus;
+  //#region Public Methods
+
+  protected handleShowProcessDonation(donationId: number) {
+    this.donationService.getDonationById(donationId).subscribe((donation) => {
+      this.showProcessDonationModal(donation);
+    });
   }
 
-  get PackageType() {
-    return PackageType;
+  protected handleShowEditDonation(donationId: number) {
+    this.donationService.getDonationById(donationId).subscribe((donation) => {
+      this.showEditDonationModal(donation);
+    });
   }
 
+  protected handleShowDonationDetail(donationId: number) {
+    this.donationService.getDonationById(donationId).subscribe((donation) => {
+      this.showDonationDetailModal(donation);
+    });
+  }
+
+  protected handleDeleteDonation(dontationId: number) {
+    const initialState: ModalOptions = {
+      initialState: {
+        message: 'Are you sure you want to delete this donation?',
+      },
+      class: 'modal-md',
+    };
+    this.confirmationModalRef = this.modalService.show(
+      ConfirmationMessageComponent,
+      initialState
+    );
+
+    this.confirmationModalRef.content.onYes.subscribe(() => {
+      this.donationService.deleteDonation(dontationId).subscribe(() => {
+        this.donations = this.donations.filter((d) => d.id != dontationId);
+      });
+
+      this.hideConfirmationModal();
+    });
+
+    this.confirmationModalRef.content.onNo.subscribe(() => {
+      this.hideConfirmationModal();
+    });
+  }
+
+  //#endregion
+
+  //#region Private Methods
   private loadDonations() {
     this.donationService.getDonations().subscribe((donations) => {
       this.donations = donations;
@@ -88,14 +135,6 @@ export class DonationComponent {
   private closeModal() {
     this.processDonationModalRef?.hide();
   }
-
-  //#region Process Donation
-  handleShowProcessDonation(donationId: number) {
-    this.donationService.getDonationById(donationId).subscribe((donation) => {
-      this.showProcessDonationModal(donation);
-    });
-  }
-
   private showProcessDonationModal(donation: Donation) {
     const configuartions: ModalOptions = {
       initialState: {
@@ -132,15 +171,6 @@ export class DonationComponent {
       });
   }
 
-  //#endregion
-
-  //#region Edit Donation
-  handleShowEditDonation(donationId: number) {
-    this.donationService.getDonationById(donationId).subscribe((donation) => {
-      this.showEditDonationModal(donation);
-    });
-  }
-
   private showEditDonationModal(donation: Donation) {
     const configuartions: ModalOptions = {
       initialState: {
@@ -169,24 +199,6 @@ export class DonationComponent {
     });
   }
 
-  private handleEditDonation(updatedDonation: UpdatedDonation) {
-    this.donationService
-      .updateDonation(updatedDonation)
-      .subscribe((dnt: Donation) => {
-        debugger;
-        this.donations = this.donations.map((d) => (d.id === dnt.id ? dnt : d));
-      });
-  }
-
-  //#endregion
-
-  //#region Donation Detail
-  handleShowDonationDetail(donationId: number) {
-    this.donationService.getDonationById(donationId).subscribe((donation) => {
-      this.showDonationDetailModal(donation);
-    });
-  }
-
   private showDonationDetailModal(donation: Donation) {
     const configuartions: ModalOptions = {
       initialState: {
@@ -207,37 +219,16 @@ export class DonationComponent {
     });
   }
 
-  //#endregion
-
-  //#region Delete Donation
-  handleDeleteDonation(dontationId: number) {
-    const initialState: ModalOptions = {
-      initialState: {
-        message: 'Are you sure you want to delete this donation?',
-      },
-      class: 'modal-md',
-    };
-    this.confirmationModalRef = this.modalService.show(
-      ConfirmationMessageComponent,
-      initialState
-    );
-
-    this.confirmationModalRef.content.onYes.subscribe(() => {
-      this.donationService.deleteDonation(dontationId).subscribe(() => {
-        this.donations = this.donations.filter((d) => d.id != dontationId);
-      });
-
-      this.hideConfirmationModal();
-    });
-
-    this.confirmationModalRef.content.onNo.subscribe(() => {
-      this.hideConfirmationModal();
-    });
-  }
-
   private hideConfirmationModal() {
     this.confirmationModalRef?.hide();
   }
 
+  private handleEditDonation(updatedDonation: UpdatedDonation) {
+    this.donationService
+      .updateDonation(updatedDonation)
+      .subscribe((dnt: Donation) => {
+        this.donations = this.donations.map((d) => (d.id === dnt.id ? dnt : d));
+      });
+  }
   //#endregion
 }

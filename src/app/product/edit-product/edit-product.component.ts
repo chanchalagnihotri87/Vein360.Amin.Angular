@@ -22,12 +22,15 @@ import { TradeType } from '../shared/trade-type.enum';
 export class EditProductComponent implements OnInit {
   @Input({ required: true }) product?: Product;
 
-  onSubmit = output<Product>();
-  onClose = output();
+  public onSubmit = output<Product>();
+  public onClose = output();
 
-  productTypes: ProductTypeListItem[] = [];
+  protected productTypes: ProductTypeListItem[] = [];
+  protected productForm: FormGroup;
 
-  productForm: FormGroup;
+  get TradeType() {
+    return TradeType;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,14 +46,8 @@ export class EditProductComponent implements OnInit {
     this.fillProductForm(this.product!);
   }
 
-  //#region Get Properties
-  get TradeType() {
-    return TradeType;
-  }
-  //#endregion
-
   //#region Public Methods
-  submitForm() {
+  protected submitForm() {
     if (this.productForm.valid) {
       let updatedProduct = new Product(
         this.productForm.value.name,
@@ -71,11 +68,11 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  closeModal() {
+  protected closeModal() {
     this.onClose.emit();
   }
 
-  onFileSelected(event: Event) {
+  protected onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       this.productForm.patchValue({
@@ -84,7 +81,7 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  public downloadLabel(imageFileName: string | undefined) {
+  protected downloadLabel(imageFileName: string | undefined) {
     if (imageFileName) {
       this.productService
         .getImage(imageFileName)

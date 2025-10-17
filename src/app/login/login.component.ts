@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -18,20 +18,21 @@ import AuthenticationResponse from './shared/authentication-response.model';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  private formBuilder = inject(FormBuilder);
-
-  loginForm: FormGroup = this.formBuilder.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required],
-  });
+  protected loginForm: FormGroup;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private accountService: AccountService
-  ) {} // private router: Router // private accountService: AccountService, // private authService: AuthService,
+    private accountService: AccountService,
+    private formBuilder: FormBuilder
+  ) {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
+  }
 
-  login() {
+  protected login() {
     if (this.loginForm.valid) {
       this.accountService
         .signIn(this.loginForm.value.username, this.loginForm.value.password)

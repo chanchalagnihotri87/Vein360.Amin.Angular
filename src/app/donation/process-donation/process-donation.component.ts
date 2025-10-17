@@ -20,21 +20,76 @@ import ProcessedDonation from '../shared/processed-donation-model';
   templateUrl: './process-donation.component.html',
 })
 export class ProcessDonationComponent implements OnInit {
-  onClose = output();
-
   @Input({ required: true }) donation?: Donation;
   @Input({ required: true }) containers: DonationContainer[] = [];
   @Input({ required: true }) products: Product[] = [];
 
-  onSubmit = output<ProcessedDonation>();
+  public onSubmit = output<ProcessedDonation>();
+  public onClose = output();
 
-  public donationForm: FormGroup;
+  protected donationForm: FormGroup;
+
+  protected get productFormControls() {
+    return this.donationForm.get('products') as FormArray;
+  }
 
   constructor(private formBuilder: FormBuilder) {
     this.donationForm = this.createDonationForm();
   }
 
   ngOnInit(): void {
+    this.fillForm(this.donation);
+  }
+
+  //#region Public Methods
+
+  public submitForm() {
+    if (this.donationForm.valid) {
+      debugger;
+      const newDonation: ProcessedDonation = new ProcessedDonation(
+        this.donation!.id,
+        this.donationForm.value.products.map(
+          (productItem: { id: number; accepted: number; rejected: number }) => {
+            return new ProcessedProduct(
+              productItem.id,
+              productItem.accepted,
+              productItem.rejected
+            );
+          }
+        )
+      );
+
+      this.onSubmit.emit(newDonation);
+      this.onClose.emit();
+    }
+  }
+
+  public closeModal() {
+    this.onClose.emit();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+  private createDonationForm() {
+    return this.formBuilder.group({
+      products: this.formBuilder.array([
+        this.formBuilder.group({
+          id: [this.formBuilder.control<number | null>(null)],
+          accepted: [
+            this.formBuilder.control<number | null>(null),
+            Validators.required,
+          ],
+          rejected: [
+            this.formBuilder.control<number | null>(null),
+            Validators.required,
+          ],
+        }),
+      ]),
+    });
+  }
+
+  private fillForm(donation?: Donation) {
     this.productFormControls.at(0).patchValue({
       id: this.donation?.products[0].id,
       accepted: this.donation?.products[0].accepted,
@@ -68,50 +123,5 @@ export class ProcessDonationComponent implements OnInit {
     }
   }
 
-  public submitForm() {
-    if (this.donationForm.valid) {
-      debugger;
-      const newDonation: ProcessedDonation = new ProcessedDonation(
-        this.donation!.id,
-        this.donationForm.value.products.map(
-          (productItem: { id: number; accepted: number; rejected: number }) => {
-            return new ProcessedProduct(
-              productItem.id,
-              productItem.accepted,
-              productItem.rejected
-            );
-          }
-        )
-      );
-
-      this.onSubmit.emit(newDonation);
-      this.onClose.emit();
-    }
-  }
-
-  closeModal() {
-    this.onClose.emit();
-  }
-
-  private createDonationForm() {
-    return this.formBuilder.group({
-      products: this.formBuilder.array([
-        this.formBuilder.group({
-          id: [this.formBuilder.control<number | null>(null)],
-          accepted: [
-            this.formBuilder.control<number | null>(null),
-            Validators.required,
-          ],
-          rejected: [
-            this.formBuilder.control<number | null>(null),
-            Validators.required,
-          ],
-        }),
-      ]),
-    });
-  }
-
-  get productFormControls() {
-    return this.donationForm.get('products') as FormArray;
-  }
+  //#endregion
 }
