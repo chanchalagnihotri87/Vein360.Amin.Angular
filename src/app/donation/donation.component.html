@@ -37,7 +37,7 @@
             <td>
               {{ donation.createdDate | date : "mediumDate" }}
             </td>
-            <td>Chanchal Kumar</td>
+            <td>{{ donation.donor?.name }}</td>
             <td>
               <div class="dropdown">
                 <button

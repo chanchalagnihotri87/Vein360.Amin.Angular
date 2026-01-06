@@ -1,5 +1,6 @@
 import Clinic from '../../container-allotment/shared/clinic.model';
 import { DonationStatus } from '../../shared/enums/dontainer-status.enum';
+import { UserListItem } from '../../user/shared/user-list-item.model';
 import ContainerType from './container-type.model';
 import DonationProduct from './donation-product.model';
 
@@ -18,6 +19,7 @@ export default class Donation {
   products: DonationProduct[];
   containerType?: ContainerType;
   clinic?: Clinic;
+  donor?: UserListItem;
 
   constructor(
     clinicId: number,
