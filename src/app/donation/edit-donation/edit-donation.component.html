@@ -74,53 +74,60 @@
 
     <!-- Product Controls -->
 
-    @for(donationProduct of donation?.products; track $index; let index=$index){
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <select
-          class="form-select"
-          [value]="donationProduct.productId"
-          disabled
-        >
-          <option value="">Select Product</option>
-          @for(product of products; track product.id.toString()){
-          <option [value]="product.id">
-            {{ product.name }}
-          </option>
-          }
-        </select>
+    @for (
+      donationProduct of donation?.products;
+      track $index;
+      let index = $index
+    ) {
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <select
+            class="form-select"
+            [value]="donationProduct.productId"
+            disabled
+          >
+            <option value="">Select Product</option>
+            @for (product of products; track product.id.toString()) {
+              <option
+                [value]="product.id"
+                [selected]="product.id == donationProduct.productId"
+              >
+                {{ product.name }}
+              </option>
+            }
+          </select>
+        </div>
+        <div class="col-md-2">
+          <input
+            type="number"
+            placeholder="Enter units"
+            class="form-control"
+            [value]="donationProduct.units"
+            disabled
+          />
+        </div>
+        <div class="col-md-1">
+          <input
+            type="number"
+            class="form-control pe-0"
+            [value]="donationProduct.accepted"
+            disabled
+          />
+        </div>
+        <div class="col-md-1">
+          <input
+            type="number"
+            class="form-control pe-0"
+            [value]="donationProduct.rejected"
+            disabled
+          />
+        </div>
+        <div class="col-md-1 ps-0 pt-2">
+          <app-rejection-info
+            [donationProduct]="donationProduct"
+          ></app-rejection-info>
+        </div>
       </div>
-      <div class="col-md-2">
-        <input
-          type="number"
-          placeholder="Enter units"
-          class="form-control"
-          [value]="donationProduct.units"
-          disabled
-        />
-      </div>
-      <div class="col-md-1">
-        <input
-          type="number"
-          class="form-control pe-0"
-          [value]="donationProduct.accepted"
-          disabled
-        />
-      </div>
-      <div class="col-md-1">
-        <input
-          type="number"
-          class="form-control pe-0"
-          [value]="donationProduct.rejected"
-          disabled
-        />
-      </div>
-      <div class="col-md-1 ps-0 pt-2">
-        <app-rejection-info
-          [donationProduct]="donationProduct"
-        ></app-rejection-info>
-      </div>
-    </div>
     }
   </div>
 
