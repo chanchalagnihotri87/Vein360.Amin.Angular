@@ -2,6 +2,7 @@ import { Component, input, output } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import Clinic from '../container-allotment/shared/clinic.model';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
+import { MessageDisplayService } from '../shared/message-display/message-display.service';
 import { ClinicService } from '../user/shared/clinic.service';
 import { AddClinicComponent } from './add-clinic/add-clinic.component';
 import { EditClinicComponent } from './edit-clinic/edit-clinic.component';
@@ -16,7 +17,7 @@ import { StatesService } from './shared/state.service';
 export class ClinicComponent {
   public userId = input.required<number>();
   public clinics = input.required<Clinic[]>();
-  public onLoadClinics = output();
+  public onLoadClinics = output<() => void>();
 
   private clinicModalRef?: BsModalRef;
   private confirmationModalRef?: BsModalRef;
@@ -25,7 +26,8 @@ export class ClinicComponent {
     private modalService: BsModalService,
     private clinicService: ClinicService,
     private stateService: StatesService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private msgDisplayService: MessageDisplayService,
   ) {}
 
   //#region Public Methods
@@ -40,7 +42,7 @@ export class ClinicComponent {
 
     this.clinicModalRef = this.modalService.show(
       AddClinicComponent,
-      configuartions
+      configuartions,
     );
 
     this.clinicModalRef.content.onSubmit.subscribe((newClinic: Clinic) => {
@@ -71,7 +73,7 @@ export class ClinicComponent {
 
     this.clinicModalRef = this.modalService.show(
       EditClinicComponent,
-      configuartions
+      configuartions,
     );
 
     this.clinicModalRef.content.onSubmit.subscribe((clinic: Clinic) => {
@@ -100,12 +102,16 @@ export class ClinicComponent {
     };
     this.confirmationModalRef = this.modalService.show(
       ConfirmationMessageComponent,
-      initialState
+      initialState,
     );
 
     this.confirmationModalRef.content.onYes.subscribe(() => {
       this.clinicService.deleteClinic(clinicId).subscribe(() => {
-        this.onLoadClinics.emit();
+        this.onLoadClinics.emit(() =>
+          this.msgDisplayService.showSuccessMessage(
+            'Clinic deleted succesfully.',
+          ),
+        );
       });
 
       this.hideConfirmationModal();
@@ -123,13 +129,19 @@ export class ClinicComponent {
   private handleAddClinic(clinic: Clinic) {
     clinic.userId = this.userId();
     this.clinicService.addClinic(clinic).subscribe(() => {
-      this.onLoadClinics.emit();
+      this.onLoadClinics.emit(() =>
+        this.msgDisplayService.showSuccessMessage('Clinic added succesfully.'),
+      );
     });
   }
 
   private handleUpdateClinic(clinic: Clinic) {
     this.clinicService.updateClinic(clinic).subscribe(() => {
-      this.onLoadClinics.emit();
+      this.onLoadClinics.emit(() =>
+        this.msgDisplayService.showSuccessMessage(
+          'Clinic updated succesfully.',
+        ),
+      );
     });
   }
 

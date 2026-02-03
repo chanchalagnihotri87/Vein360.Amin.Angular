@@ -15,6 +15,7 @@ import { ClinicComponent } from '../../clinic/clinic.component';
 import Product from '../../product/shared/product.model';
 import { ProductService } from '../../product/shared/product.service';
 import { TradeType } from '../../product/shared/trade-type.enum';
+import { MessageDisplayService } from '../../shared/message-display/message-display.service';
 import { ValidationMessageComponent } from '../../shared/validation-message/validation-message.component';
 import { PreferencesComponent } from '../preferences/preferences.component';
 import { ProductRatesComponent } from '../product-rates/product-rates.component';
@@ -63,7 +64,8 @@ export class EditUserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private productService: ProductService,
-    private productRateService: ProductRateService
+    private productRateService: ProductRateService,
+    private msgDisplayService: MessageDisplayService,
   ) {
     this.setBreadcrumb();
     this.userForm = this.createUserForm();
@@ -106,10 +108,14 @@ export class EditUserComponent implements OnInit {
         this.userForm.value.isBuyer,
         this.userForm.value.isDonor,
         this.userForm.value.isAdmin,
-        this.userForm.value.isApiUser
+        this.userForm.value.isApiUser,
       );
 
-      this.userService.updatedUser(updatedUser).subscribe(() => {});
+      this.userService.updatedUser(updatedUser).subscribe(() => {
+        this.msgDisplayService.showLongSuccessMessage(
+          'User detail updated successfully.',
+        );
+      });
     }
   }
 
@@ -149,9 +155,12 @@ export class EditUserComponent implements OnInit {
 
   //#region Private Methods
 
-  public loadClinics() {
+  public loadClinics(callback?: () => void) {
     this.clinicService.getClinics(this.id).subscribe((clinics) => {
       this.clinics = clinics;
+      if (callback) {
+        callback();
+      }
     });
   }
 

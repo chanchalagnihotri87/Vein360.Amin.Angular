@@ -36,7 +36,7 @@ export class EditOrderComponent {
 
   constructor(
     private readonly clinicService: ClinicService,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
   ) {
     this.orderForm = this.createOrderForm();
   }
@@ -61,8 +61,8 @@ export class EditOrderComponent {
           this.orderForm.value.quantity,
           this.orderForm.value.clinicId,
           this.orderForm.value.price,
-          this.orderForm.value.status
-        )
+          this.orderForm.value.status,
+        ),
       );
 
       return;
