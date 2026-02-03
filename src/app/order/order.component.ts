@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ProductService } from '../product/shared/product.service';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
+import { MessageDisplayService } from '../shared/message-display/message-display.service';
 import { ListItem } from '../shared/models/list-item';
 import { EditOrderComponent } from './edit-order/edit-order.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
@@ -28,7 +29,8 @@ export class OrderComponent implements OnInit {
   constructor(
     private readonly orderService: OrderService,
     private readonly modalService: BsModalService,
-    private readonly productService: ProductService
+    private readonly productService: ProductService,
+    private readonly msgDisplayService: MessageDisplayService,
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +70,7 @@ export class OrderComponent implements OnInit {
 
     this.confirmationModal = this.modalService.show(
       ConfirmationMessageComponent,
-      initialState
+      initialState,
     );
 
     this.confirmationModal.content.onYes.subscribe(() => {
@@ -77,6 +79,9 @@ export class OrderComponent implements OnInit {
         this.orders.splice(orderIndex, 1);
 
         this.closeConfirmationModal();
+        this.msgDisplayService.showSuccessMessage(
+          'Order deleted successfully.',
+        );
       });
     });
 
@@ -97,7 +102,7 @@ export class OrderComponent implements OnInit {
     };
     this.orderDetailModal = this.modalService.show(
       OrderDetailComponent,
-      configurations
+      configurations,
     );
 
     this.orderDetailModal.content.onClose.subscribe(() => {
@@ -125,8 +130,11 @@ export class OrderComponent implements OnInit {
             let orderIndex = this.orders.findIndex((x) => x.id == order.id);
             this.orders[orderIndex] = updatedOrder;
             this.closeEditOrderModal();
+            this.msgDisplayService.showSuccessMessage(
+              'Order updated successfully.',
+            );
           });
-      }
+      },
     );
 
     this.editOrderModal.content.onClose.subscribe(() => {

@@ -9,6 +9,7 @@ import {
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import Product from '../../product/shared/product.model';
 import { TradeType } from '../../product/shared/trade-type.enum';
+import { MessageDisplayService } from '../../shared/message-display/message-display.service';
 import { ProductRateService } from './shared/product-rate.service';
 import ProductRate from './shared/product.rate.model';
 
@@ -31,7 +32,8 @@ export class ProductRatesComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private productRateService: ProductRateService
+    private productRateService: ProductRateService,
+    private msgDisplayService: MessageDisplayService,
   ) {
     this.productRateForm = this.createProductRateForm();
 
@@ -49,7 +51,7 @@ export class ProductRatesComponent {
 
       let filteredProductForms = productRateControlArray.filter(
         (controlsArray: any) =>
-          controlsArray.price || controlsArray.useSalesCredit
+          controlsArray.price || controlsArray.useSalesCredit,
       );
 
       var productRates = filteredProductForms.map(
@@ -57,8 +59,8 @@ export class ProductRatesComponent {
           new ProductRate(
             controlsArray.productId,
             controlsArray.price == '' ? undefined : controlsArray.price,
-            controlsArray.useSalesCredit
-          )
+            controlsArray.useSalesCredit,
+          ),
       );
 
       console.log('Form Submitted', productRates);
@@ -66,13 +68,31 @@ export class ProductRatesComponent {
       this.productRateService
         .saveProductRates(this.userId(), productRates, this.trade())
         .subscribe(() => {
-          console.log('Product rates saved successfully');
+          if (this.trade() == TradeType.Sort) {
+            this.msgDisplayService.showLongSuccessMessage(
+              'Donation rates saved successfully.',
+            );
+
+            return;
+          }
+
+          if (this.trade() == TradeType.Sale) {
+            this.msgDisplayService.showSuccessMessage(
+              'Sale rates saved successfully.',
+            );
+
+            return;
+          }
         });
 
       // Here you can handle the form submission, e.g., send it to a server
     } else {
       console.log('Form is invalid');
     }
+  }
+
+  get TradeType() {
+    return TradeType;
   }
 
   //#endregion
@@ -92,7 +112,7 @@ export class ProductRatesComponent {
 
     this.products().map((product) => {
       const existingRate = this.productRates().find(
-        (rate) => rate.productId === product.id
+        (rate) => rate.productId === product.id,
       );
 
       this.productRateFormControls.push(
@@ -101,7 +121,7 @@ export class ProductRatesComponent {
           productName: [product.name],
           price: [existingRate ? existingRate.price : ''],
           useSalesCredit: [existingRate ? existingRate.useSalesCredit : false],
-        })
+        }),
       );
     });
   }

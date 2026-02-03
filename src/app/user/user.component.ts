@@ -4,6 +4,7 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BreadcrumbItem } from '../breadcrumb/shared/breadcrumb-item.model';
 import { BreadcrumbService } from '../breadcrumb/shared/breadcrumb.service';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
+import { MessageDisplayService } from '../shared/message-display/message-display.service';
 import { AddUserComponent } from './add-user/add-user.component';
 import CreateUserRequest from './shared/create-user-request.model';
 import User from './shared/user.model';
@@ -25,7 +26,8 @@ export class UserComponent implements OnInit {
     private modalService: BsModalService,
     private userService: UserService,
     private breadcrumbService: BreadcrumbService,
-    private router: Router
+    private router: Router,
+    private msgDisplayService: MessageDisplayService,
   ) {}
 
   ngOnInit(): void {
@@ -45,13 +47,13 @@ export class UserComponent implements OnInit {
 
     this.userModalRef = this.modalService.show(
       AddUserComponent,
-      configuartions
+      configuartions,
     );
 
     this.userModalRef.content.onSubmit.subscribe(
       (userRequest: CreateUserRequest) => {
         this.handleAddUser(userRequest);
-      }
+      },
     );
 
     this.userModalRef.content.onClose.subscribe(() => {
@@ -86,7 +88,7 @@ export class UserComponent implements OnInit {
     };
     this.confirmationModalRef = this.modalService.show(
       ConfirmationMessageComponent,
-      initialState
+      initialState,
     );
 
     this.confirmationModalRef.content.onYes.subscribe(() => {
@@ -106,20 +108,11 @@ export class UserComponent implements OnInit {
 
   //#region Private Methods
   private handleAddUser(userRequest: CreateUserRequest) {
-    this.userService.addUser(userRequest).subscribe({
-      next: () => {
-        this.loadUsers();
-      },
-      error: (err) => {
-        if (err.error?.duplicateEmail) {
-          alert('Email is already used, please use diffrent email.');
-          return;
-        }
-        throw new Error(err.error);
-      },
-      complete: () => {
-        this.closeModal();
-      },
+    this.userService.addUser(userRequest).subscribe(() => {
+      this.loadUsers(() =>
+        this.msgDisplayService.showSuccessMessage('User added successfully.'),
+      );
+      this.closeModal();
     });
   }
 
@@ -135,9 +128,12 @@ export class UserComponent implements OnInit {
     }
   }
 
-  private loadUsers() {
+  private loadUsers(callback?: () => void) {
     this.userService.getUsers().subscribe((users) => {
       this.users = users;
+      if (callback) {
+        callback();
+      }
     });
   }
 
