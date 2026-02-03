@@ -2,19 +2,20 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ToastrService } from 'ngx-toastr';
 import { BreadcrumbItem } from '../breadcrumb/shared/breadcrumb-item.model';
 import { BreadcrumbService } from '../breadcrumb/shared/breadcrumb.service';
-import { DonationContainerService } from '../container-allotment/shared/donation-container.service';
-import { DonationStatus } from '../shared/enums/dontainer-status.enum';
-import { ProcessDonationComponent } from './process-donation/process-donation.component';
-
 import DonationContainer from '../container-allotment/shared/donation-container.model';
+import { DonationContainerService } from '../container-allotment/shared/donation-container.service';
 import Product from '../product/shared/product.model';
 import { ProductService } from '../product/shared/product.service';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
+import { DonationStatus } from '../shared/enums/dontainer-status.enum';
 import { PackageType } from '../shared/enums/package-type.enum';
+import { MessageDisplayService } from '../shared/message-display/message-display.service';
 import { DonationDetailComponent } from './donation-detail/donation-detail.component';
 import { EditDonationComponent } from './edit-donation/edit-donation.component';
+import { ProcessDonationComponent } from './process-donation/process-donation.component';
 import Donation from './shared/donation.model';
 import { DonationService } from './shared/donation.service';
 import ProcessedDonation from './shared/processed-donation-model';
@@ -48,7 +49,9 @@ export class DonationComponent {
     private breadcrumbService: BreadcrumbService,
     private modalService: BsModalService,
     private productService: ProductService,
-    private containerService: DonationContainerService
+    private containerService: DonationContainerService,
+    private toast: ToastrService,
+    private msgDisplayService: MessageDisplayService,
   ) {
     this.loadDonations();
     this.loadContainers();
@@ -85,12 +88,15 @@ export class DonationComponent {
     };
     this.confirmationModalRef = this.modalService.show(
       ConfirmationMessageComponent,
-      initialState
+      initialState,
     );
 
     this.confirmationModalRef.content.onYes.subscribe(() => {
       this.donationService.deleteDonation(dontationId).subscribe(() => {
         this.donations = this.donations.filter((d) => d.id != dontationId);
+        this.msgDisplayService.showSuccessMessage(
+          'Donation deleted successfully.',
+        );
       });
 
       this.hideConfirmationModal();
@@ -147,7 +153,7 @@ export class DonationComponent {
 
     this.processDonationModalRef = this.modalService.show(
       ProcessDonationComponent,
-      configuartions
+      configuartions,
     );
 
     this.processDonationModalRef.content.onSubmit.subscribe(
@@ -155,7 +161,7 @@ export class DonationComponent {
         debugger;
         this.handleProcessDonation(donation);
         this.closeModal();
-      }
+      },
     );
 
     this.processDonationModalRef.content.onClose.subscribe(() => {
@@ -183,15 +189,14 @@ export class DonationComponent {
 
     this.processDonationModalRef = this.modalService.show(
       EditDonationComponent,
-      configuartions
+      configuartions,
     );
 
     this.processDonationModalRef.content.onSubmit.subscribe(
       (updatedDonation: UpdatedDonation) => {
-        debugger;
         this.handleEditDonation(updatedDonation);
         this.closeModal();
-      }
+      },
     );
 
     this.processDonationModalRef.content.onClose.subscribe(() => {
@@ -211,7 +216,7 @@ export class DonationComponent {
 
     this.processDonationModalRef = this.modalService.show(
       DonationDetailComponent,
-      configuartions
+      configuartions,
     );
 
     this.processDonationModalRef.content.onClose.subscribe(() => {
@@ -228,6 +233,9 @@ export class DonationComponent {
       .updateDonation(updatedDonation)
       .subscribe((dnt: Donation) => {
         this.donations = this.donations.map((d) => (d.id === dnt.id ? dnt : d));
+        this.msgDisplayService.showSuccessMessage(
+          'Donation updated successfully.',
+        );
       });
   }
   //#endregion

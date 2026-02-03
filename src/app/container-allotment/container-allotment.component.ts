@@ -4,6 +4,7 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BreadcrumbService } from '../breadcrumb/shared/breadcrumb.service';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
 import { DonationContainerStatus } from '../shared/enums/donation-container.status';
+import { MessageDisplayService } from '../shared/message-display/message-display.service';
 import { ApproveContainerRequestComponent } from './approve-container-request/approve-container-request.component';
 import { ContainerRequestDetailComponent } from './container-request-detail/container-request-detail.component';
 import ApproveContainerRequest from './shared/approve-container-request.model';
@@ -34,7 +35,8 @@ export class ContainerAllotmentComponent {
     private containerTypeService: ContatinerTypeService,
     private modalService: BsModalService,
     private documentService: DocumentService,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private msgDisplayService: MessageDisplayService,
   ) {}
 
   ngOnInit(): void {
@@ -62,14 +64,18 @@ export class ContainerAllotmentComponent {
     };
     this.confirmationModalRef = this.modalService.show(
       ConfirmationMessageComponent,
-      initialState
+      initialState,
     );
 
     this.confirmationModalRef.content.onYes.subscribe(() => {
       this.donationContainerService
         .rejectRequest(donationContainerId)
         .subscribe(() => {
-          this.loadDonationContainers();
+          this.loadDonationContainers(() =>
+            this.msgDisplayService.showSuccessMessage(
+              'Request deleted successfully.',
+            ),
+          );
         });
 
       this.hideConfirmationModal();
@@ -97,14 +103,18 @@ export class ContainerAllotmentComponent {
     };
     this.confirmationModalRef = this.modalService.show(
       ConfirmationMessageComponent,
-      initialState
+      initialState,
     );
 
     this.confirmationModalRef.content.onYes.subscribe(() => {
       this.donationContainerService
         .deleteContainer(dontationId)
         .subscribe(() => {
-          this.loadDonationContainers();
+          this.loadDonationContainers(() =>
+            this.msgDisplayService.showSuccessMessage(
+              'Request deleted successfully.',
+            ),
+          );
         });
 
       this.hideConfirmationModal();
@@ -127,12 +137,15 @@ export class ContainerAllotmentComponent {
 
   //#region  Private Methods
 
-  private loadDonationContainers() {
+  private loadDonationContainers(callback?: () => void) {
     this.donationContainerService
       .getContainers()
       .subscribe((donationContainers) => {
         console.log(donationContainers);
         this.donationContainers = donationContainers;
+        if (callback) {
+          callback();
+        }
       });
   }
 
@@ -151,7 +164,7 @@ export class ContainerAllotmentComponent {
   }
 
   private showContainerRequestDetailModal(
-    donationContainer: DonationContainer
+    donationContainer: DonationContainer,
   ) {
     const initialState: ModalOptions = {
       class: 'modal-lg',
@@ -163,7 +176,7 @@ export class ContainerAllotmentComponent {
 
     this.containerModalRef = this.modalService.show(
       ContainerRequestDetailComponent,
-      initialState
+      initialState,
     );
 
     this.containerModalRef.content.onClose.subscribe(() => {
@@ -172,7 +185,7 @@ export class ContainerAllotmentComponent {
   }
 
   private showApproveContainerRequestModal(
-    donationContainer: DonationContainer
+    donationContainer: DonationContainer,
   ) {
     const initialState: ModalOptions = {
       class: 'modal-lg',
@@ -184,7 +197,7 @@ export class ContainerAllotmentComponent {
 
     this.containerModalRef = this.modalService.show(
       ApproveContainerRequestComponent,
-      initialState
+      initialState,
     );
 
     this.containerModalRef.content.onSubmit.subscribe(
@@ -192,11 +205,15 @@ export class ContainerAllotmentComponent {
         this.donationContainerService
           .approveRequest(approveContainerRequest)
           .subscribe(() => {
-            this.loadDonationContainers();
+            this.loadDonationContainers(() =>
+              this.msgDisplayService.showSuccessMessage(
+                'Request approved successfully.',
+              ),
+            );
           });
 
         this.closeModal();
-      }
+      },
     );
 
     this.containerModalRef.content.onClose.subscribe(() => {

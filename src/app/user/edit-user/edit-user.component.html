@@ -137,7 +137,7 @@
       <app-clinic
         [clinics]="clinics"
         [userId]="id"
-        (onLoadClinics)="loadClinics()"
+        (onLoadClinics)="loadClinics($event)"
       ></app-clinic>
     </div>
 
@@ -146,28 +146,28 @@
     </div>
 
     <div class="nav-content p-3 {{ donationRatesTabIsActive ? '' : 'd-none' }}">
-      @if(productsLoaded && productRatesLoaded){
-      <app-product-rates
-        [products]="donationProducts"
-        [productRates]="productRates"
-        [userId]="id"
-        [trade]="TradeType.Sort"
-      ></app-product-rates>
+      @if (productsLoaded && productRatesLoaded) {
+        <app-product-rates
+          [products]="donationProducts"
+          [productRates]="productRates"
+          [userId]="id"
+          [trade]="TradeType.Sort"
+        ></app-product-rates>
       } @else {
-      <p>Loading...</p>
+        <p>Loading...</p>
       }
     </div>
 
     <div class="nav-content p-3 {{ saleRatesTabIsActive ? '' : 'd-none' }}">
-      @if(productsLoaded && productRatesLoaded){
-      <app-product-rates
-        [products]="saleProducts"
-        [productRates]="productRates"
-        [userId]="id"
-        [trade]="TradeType.Sale"
-      ></app-product-rates>
+      @if (productsLoaded && productRatesLoaded) {
+        <app-product-rates
+          [products]="saleProducts"
+          [productRates]="productRates"
+          [userId]="id"
+          [trade]="TradeType.Sale"
+        ></app-product-rates>
       } @else {
-      <p>Loading...</p>
+        <p>Loading...</p>
       }
     </div>
 
