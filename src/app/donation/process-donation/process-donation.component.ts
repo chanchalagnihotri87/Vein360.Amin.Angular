@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, output } from '@angular/core';
-import DonationContainer from '../../container-allotment/shared/donation-container.model';
 import Donation from '../shared/donation.model';
 
 import Product from '../../product/shared/product.model';
@@ -21,7 +20,6 @@ import ProcessedDonation from '../shared/processed-donation-model';
 })
 export class ProcessDonationComponent implements OnInit {
   @Input({ required: true }) donation?: Donation;
-  @Input({ required: true }) containers: DonationContainer[] = [];
   @Input({ required: true }) products: Product[] = [];
 
   public onSubmit = output<ProcessedDonation>();
@@ -53,10 +51,10 @@ export class ProcessDonationComponent implements OnInit {
             return new ProcessedProduct(
               productItem.id,
               productItem.accepted,
-              productItem.rejected
+              productItem.rejected,
             );
-          }
-        )
+          },
+        ),
       );
 
       this.onSubmit.emit(newDonation);
@@ -109,7 +107,7 @@ export class ProcessDonationComponent implements OnInit {
               this.formBuilder.control<number | null>(null),
               Validators.required,
             ],
-          })
+          }),
         );
 
         this.productFormControls.at(i).patchValue({

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import PagedResponse from '../../shared/paged-response/paged-response';
 import Donation from './donation.model';
 import ProcessedDonation from './processed-donation-model';
 import UpdatedDonation from './updated-donation.model';
@@ -13,8 +14,10 @@ export class DonationService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getDonations() {
-    return this.httpClient.get<Donation[]>(`${this.baseUrl}/all`);
+  getDonations(page: number) {
+    return this.httpClient.get<PagedResponse<Donation>>(
+      `${this.baseUrl}/all?page=${page}`,
+    );
   }
 
   getDonationById(donationId: number) {

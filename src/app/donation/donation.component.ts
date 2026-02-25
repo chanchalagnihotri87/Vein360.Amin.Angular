@@ -10,9 +10,12 @@ import { DonationContainerService } from '../container-allotment/shared/donation
 import Product from '../product/shared/product.model';
 import { ProductService } from '../product/shared/product.service';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
+import Constants from '../shared/constants/constants';
 import { DonationStatus } from '../shared/enums/dontainer-status.enum';
 import { PackageType } from '../shared/enums/package-type.enum';
 import { MessageDisplayService } from '../shared/message-display/message-display.service';
+import PagedResponse from '../shared/paged-response/paged-response';
+import { PagingControlComponent } from '../shared/paging/paging-control.component';
 import { DonationDetailComponent } from './donation-detail/donation-detail.component';
 import { EditDonationComponent } from './edit-donation/edit-donation.component';
 import { ProcessDonationComponent } from './process-donation/process-donation.component';
@@ -23,13 +26,14 @@ import UpdatedDonation from './shared/updated-donation.model';
 
 @Component({
   selector: 'app-donation',
-  imports: [DatePipe, TooltipModule],
+  imports: [DatePipe, TooltipModule, PagingControlComponent],
   templateUrl: './donation.component.html',
   styleUrl: './donation.component.scss',
 })
 export class DonationComponent {
   public donations: Donation[] = [];
-
+  public pagedDonations?: PagedResponse<Donation>;
+  public donationsLoaded = false;
   private processDonationModalRef?: BsModalRef;
   private confirmationModalRef?: BsModalRef;
   private rejectionDetailModalRef?: BsModalRef;
@@ -53,7 +57,7 @@ export class DonationComponent {
     private toast: ToastrService,
     private msgDisplayService: MessageDisplayService,
   ) {
-    this.loadDonations();
+    this.loadDonations(Constants.DefaultPageNo);
     this.loadContainers();
     this.loadProducts();
     this.setBreadcrumb();
@@ -109,10 +113,22 @@ export class DonationComponent {
 
   //#endregion
 
+  //#region Paging
+  goToPage(page: number) {
+    this.loadDonations(page);
+  }
+  //#endregion
+
   //#region Private Methods
-  private loadDonations() {
-    this.donationService.getDonations().subscribe((donations) => {
-      this.donations = donations;
+  private loadDonations(page: number) {
+    this.donationService.getDonations(page).subscribe((resp) => {
+      this.pagedDonations = new PagedResponse<Donation>(
+        resp.items,
+        resp.totalPages,
+        resp.currentPage,
+      );
+      this.donations = resp.items;
+      this.donationsLoaded = true;
     });
   }
 
@@ -158,7 +174,6 @@ export class DonationComponent {
 
     this.processDonationModalRef.content.onSubmit.subscribe(
       (donation: ProcessedDonation) => {
-        debugger;
         this.handleProcessDonation(donation);
         this.closeModal();
       },
