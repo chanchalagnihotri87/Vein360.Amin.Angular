@@ -3,8 +3,11 @@ import { Component } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BreadcrumbService } from '../breadcrumb/shared/breadcrumb.service';
 import { ConfirmationMessageComponent } from '../shared/confirmation-modal/confirmation-modal.component';
+import Constants from '../shared/constants/constants';
 import { DonationContainerStatus } from '../shared/enums/donation-container.status';
 import { MessageDisplayService } from '../shared/message-display/message-display.service';
+import PagedResponse from '../shared/paged-response/paged-response';
+import { PagingControlComponent } from '../shared/paging/paging-control.component';
 import { ApproveContainerRequestComponent } from './approve-container-request/approve-container-request.component';
 import { ContainerRequestDetailComponent } from './container-request-detail/container-request-detail.component';
 import ApproveContainerRequest from './shared/approve-container-request.model';
@@ -16,12 +19,13 @@ import { DonationContainerService } from './shared/donation-container.service';
 
 @Component({
   selector: 'app-container-allotment',
-  imports: [DatePipe],
+  imports: [DatePipe, PagingControlComponent],
   templateUrl: './container-allotment.component.html',
 })
 export class ContainerAllotmentComponent {
   protected containerTypes: ContainerType[] = [];
-  protected donationContainers: DonationContainer[] = [];
+  protected pagedDonationContainers?: PagedResponse<DonationContainer>;
+  protected donationContainersLoaded = false;
 
   protected get ContainerStatus() {
     return DonationContainerStatus;
@@ -41,7 +45,7 @@ export class ContainerAllotmentComponent {
 
   ngOnInit(): void {
     this.setBreadcrumb();
-    this.loadDonationContainers();
+    this.loadDonationContainers(Constants.DefaultPageNo);
     this.loadContainerTypes();
   }
 
@@ -71,7 +75,7 @@ export class ContainerAllotmentComponent {
       this.donationContainerService
         .rejectRequest(donationContainerId)
         .subscribe(() => {
-          this.loadDonationContainers(() =>
+          this.loadDonationContainers(this.pageNo, () =>
             this.msgDisplayService.showSuccessMessage(
               'Request deleted successfully.',
             ),
@@ -84,6 +88,10 @@ export class ContainerAllotmentComponent {
     this.confirmationModalRef.content.onNo.subscribe(() => {
       this.hideConfirmationModal();
     });
+  }
+
+  private get pageNo() {
+    return this.pagedDonationContainers?.currentPage ?? Constants.DefaultPageNo;
   }
 
   public showContainerRequestDetail(donationContainerId: number) {
@@ -110,7 +118,7 @@ export class ContainerAllotmentComponent {
       this.donationContainerService
         .deleteContainer(dontationId)
         .subscribe(() => {
-          this.loadDonationContainers(() =>
+          this.loadDonationContainers(this.pageNo, () =>
             this.msgDisplayService.showSuccessMessage(
               'Request deleted successfully.',
             ),
@@ -135,18 +143,28 @@ export class ContainerAllotmentComponent {
 
   //#endregion
 
+  //#region Paging
+  goToPage(page: number) {
+    this.loadDonationContainers(page);
+  }
+  //#endregion
+
   //#region  Private Methods
 
-  private loadDonationContainers(callback?: () => void) {
-    this.donationContainerService
-      .getContainers()
-      .subscribe((donationContainers) => {
-        console.log(donationContainers);
-        this.donationContainers = donationContainers;
-        if (callback) {
-          callback();
-        }
-      });
+  private loadDonationContainers(page: number, callback?: () => void) {
+    this.donationContainerService.getPagedContainers(page).subscribe((resp) => {
+      this.pagedDonationContainers = new PagedResponse<DonationContainer>(
+        resp.items,
+        resp.totalPages,
+        resp.currentPage,
+      );
+
+      this.donationContainersLoaded = true;
+
+      if (callback) {
+        callback();
+      }
+    });
   }
 
   private loadContainerTypes() {
@@ -205,7 +223,7 @@ export class ContainerAllotmentComponent {
         this.donationContainerService
           .approveRequest(approveContainerRequest)
           .subscribe(() => {
-            this.loadDonationContainers(() =>
+            this.loadDonationContainers(this.pageNo, () =>
               this.msgDisplayService.showSuccessMessage(
                 'Request approved successfully.',
               ),

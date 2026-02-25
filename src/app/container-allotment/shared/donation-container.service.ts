@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import PagedResponse from '../../shared/paged-response/paged-response';
 import ApproveContainerRequest from './approve-container-request.model';
 import DonationContainer from './donation-container.model';
 
@@ -13,13 +14,21 @@ export class DonationContainerService {
 
   constructor(private httpClient: HttpClient) {}
 
+  getPagedContainers(page: number) {
+    return this.httpClient.get<PagedResponse<DonationContainer>>(
+      `${this.baseUrl}/all?page=${page}`,
+    );
+  }
+
   getContainers() {
-    return this.httpClient.get<DonationContainer[]>(`${this.baseUrl}/all`);
+    return this.httpClient.get<DonationContainer[]>(
+      `${this.baseUrl}/available`,
+    );
   }
 
   getAvalableContainers(): Observable<DonationContainer[]> {
     return this.httpClient.get<DonationContainer[]>(
-      `${this.baseUrl}/available`
+      `${this.baseUrl}/available`,
     );
   }
 
@@ -38,21 +47,21 @@ export class DonationContainerService {
   receiveContainer(donationContainerId: number) {
     return this.httpClient.patch(
       `${this.baseUrl}/receive/${donationContainerId}`,
-      {}
+      {},
     );
   }
 
   approveRequest(approveContainerRequest: ApproveContainerRequest) {
     return this.httpClient.patch<DonationContainer>(
       `${this.baseUrl}/approve`,
-      approveContainerRequest
+      approveContainerRequest,
     );
   }
 
   rejectRequest(donationContainerId: number) {
     return this.httpClient.patch<DonationContainer>(
       `${this.baseUrl}/reject/${donationContainerId}`,
-      {}
+      {},
     );
   }
 }
